@@ -10,7 +10,10 @@ api.interceptors.request.use(
         const state = store.getState()
         if (state.user.access_token !== '') {
             const { access_token } = state.user
-            config.headers['Authorization'] = `Bearer ${access_token}`
+
+            if (config.headers) {
+                config.headers['Authorization'] = `Bearer ${access_token}`
+            }
         }
         return config
     },
