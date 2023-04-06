@@ -8,21 +8,17 @@ In a standard NestJs projects, you would have all the resources separated in the
 
 So we took the problem the other way and decided to put all the controllers in the same directory, same for the services...
 
-So we end up with the following structure:
+So we end up with the following structure (within an app in `apps`) :
 
 ```
 src
-|    app.controller.ts
 |    app.module.ts
 |    main.ts
-└─── auth
 └─── controllers
-└─── models
-|    └─ comments
-|    └─ posts
-|    └─ users
 └─── services
 ```
+
+As we want some logic to be shared by multiple apps (example of an application and some microservices), reusablce pieces of codes are located in the folder `libs`. It contains logic that can by shared by multiple apps : such as auth or database schemas.
 
 ## Installation
 
@@ -55,3 +51,17 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+## Support
+
+Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+
+## Stay in touch
+
+-   Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
+-   Website - [https://nestjs.com](https://nestjs.com/)
+-   Twitter - [@nestframework](https://twitter.com/nestframework)
+
+## License
+
+Nest is [MIT licensed](LICENSE).
