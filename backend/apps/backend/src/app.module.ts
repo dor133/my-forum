@@ -9,7 +9,7 @@ import { User, UserSchema } from '@app/models/users/user.schema'
 @Module({
     imports: [
         MongooseModule.forRoot('mongodb+srv://mdore:FjfrjcxKYfHowB0h@my-forum.48ponwu.mongodb.net/?retryWrites=true&w=majority',{dbName: 'my-forum'}),
-        MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])
+        MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])
     ],
     controllers: [AppController, UsersController],
     providers: [AppService, UsersService],
