@@ -80,7 +80,8 @@
     ],
     "moduleNameMapper": {
       "^@app/auth(|/.*)$": "<rootDir>/libs/auth/src/$1",
-      "^@app/models(|/.*)$": "<rootDir>/libs/models/src/$1"
+      "^@app/models(|/.*)$": "<rootDir>/libs/models/src/$1",
+      "^@app/users(|/.*)$": "<rootDir>/libs/users/src/$1"
     }
   }
 }

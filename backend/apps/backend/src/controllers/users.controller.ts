@@ -1,7 +1,8 @@
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common'
-import { UsersService } from '../services/users.service'
+import { UsersService } from '@app/users/users.service'
 import { User } from '@app/models/users/user.schema'
-import { CreateUserDto } from '../services/create-user.dto'
+import { UpdateUserDto } from '@app/users/dto/update-user.dto'
+import { CreateUserDto } from '@app/users/dto/create-user.dto'
 
 @Controller('users')
 export class UsersController {
@@ -23,7 +24,7 @@ export class UsersController {
     }
 
     @Put(':id')
-    putUser(@Body() updateUserDto: CreateUserDto, @Param('id') id: string): Promise<User> {
+    putUser(@Body() updateUserDto: UpdateUserDto, @Param('id') id: string): Promise<User> {
         return this.usersService.update(updateUserDto, id)
     }
 }

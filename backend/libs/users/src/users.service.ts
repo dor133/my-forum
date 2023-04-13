@@ -2,8 +2,8 @@ import { User } from '@app/models/users/user.schema'
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
-import { CreateUserDto } from './create-user.dto'
-import { UpdateUserDto } from './update-user.dto'
+import { CreateUserDto } from './dto/create-user.dto'
+import { UpdateUserDto } from './dto/update-user.dto'
 import * as bcrypt from 'bcrypt'
 
 @Injectable()
@@ -36,7 +36,7 @@ export class UsersService {
         const salt = 10
         const password = createdUser.password
         createdUser.password = await bcrypt.hash(password, salt)
-        console.log(createdUser.password)
+        // console.log(createdUser.password)
         return createdUser.save()
     }
 

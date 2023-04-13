@@ -29,6 +29,12 @@
       ],
       "@app/models/*": [
         "libs/models/src/*"
+      ],
+      "@app/users": [
+        "libs/users/src"
+      ],
+      "@app/users/*": [
+        "libs/users/src/*"
       ]
     }
   }
