@@ -1,4 +1,4 @@
-import { User } from '@app/models/users/user.schema'
+import { User, UserDocument } from '@app/models/users/user.schema'
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
@@ -26,7 +26,7 @@ export class UsersService {
         return existingUser
     }
 
-    async findOne(username: string): Promise<User> {
+    async findOne(username: string): Promise<UserDocument> {
         const existingUser = await this.userModel.findOne({ username: username }).exec()
         if (!existingUser) {
             throw new NotFoundException(`User with username ${username} not found`)
