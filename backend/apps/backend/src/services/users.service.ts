@@ -33,9 +33,10 @@ export class UsersService {
         if (existingUser) {
             throw new ConflictException('User with this email or username already exists')
         }
-        const salt = await bcrypt.genSalt()
+        const salt = 10
         const password = createdUser.password
         createdUser.password = await bcrypt.hash(password, salt)
+        console.log(createdUser.password)
         return createdUser.save()
     }
 
