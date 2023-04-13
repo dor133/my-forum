@@ -3,6 +3,7 @@ import { UsersService } from '@app/users/users.service'
 import { User } from '@app/models/users/user.schema'
 import { UpdateUserDto } from '@app/users/dto/update-user.dto'
 import { CreateUserDto } from '@app/users/dto/create-user.dto'
+import { UserParamDto } from '@app/users/dto/user-param.dto'
 
 @Controller('users')
 export class UsersController {
@@ -14,8 +15,8 @@ export class UsersController {
     }
 
     @Get(':id')
-    getUser(@Param('id') id: string): Promise<User> {
-        return this.usersService.findOne(id)
+    getUser(@Param() params: UserParamDto): Promise<User> {
+        return this.usersService.findOne(params.id)
     }
 
     @Post()
@@ -24,7 +25,7 @@ export class UsersController {
     }
 
     @Put(':id')
-    putUser(@Body() updateUserDto: UpdateUserDto, @Param('id') id: string): Promise<User> {
-        return this.usersService.update(updateUserDto, id)
+    putUser(@Body() updateUserDto: UpdateUserDto, @Param() params: UserParamDto): Promise<User> {
+        return this.usersService.update(updateUserDto, params.id)
     }
 }

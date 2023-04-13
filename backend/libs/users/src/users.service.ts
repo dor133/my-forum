@@ -41,9 +41,6 @@ export class UsersService {
     }
 
     async update(updateUserDto: UpdateUserDto, id: string): Promise<User> {
-        if (!id.match(/^[0-9a-fA-F]{24}$/)) {
-            throw new NotFoundException(`ID ${id} is not a valid id`)
-        }
         const existingUser = await this.userModel.findByIdAndUpdate(id, updateUserDto, { new: true, projection: { _id: 1 } }).exec()
         if (!existingUser) {
             throw new NotFoundException(`User with ID ${id} not found`)
