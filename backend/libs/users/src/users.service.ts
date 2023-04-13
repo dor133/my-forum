@@ -18,7 +18,7 @@ export class UsersService {
         return existingUsers
     }
 
-    async findOne(id: string): Promise<User> {
+    async findOneById(id: string): Promise<User> {
         const existingUser = await this.userModel.findById(id, { _id: 1 }).exec()
         if (!existingUser) {
             throw new NotFoundException(`User with ID ${id} not found`)
@@ -26,17 +26,23 @@ export class UsersService {
         return existingUser
     }
 
+    async findOne(username: string): Promise<User> {
+        const existingUser = await this.userModel.findOne({ username: username }).exec()
+        if (!existingUser) {
+            throw new NotFoundException(`User with username ${username} not found`)
+        }
+        return existingUser
+    }
+
     async create(createUserDto: CreateUserDto): Promise<User> {
         const createdUser = new this.userModel(createUserDto)
         const existingUser = await this.userModel.findOne({ $or: [{ email: createUserDto.email }, { username: createUserDto.username }] }, { _id: 1 }).exec()
-        // console.log(existingUser)
         if (existingUser) {
             throw new ConflictException('User with this email or username already exists')
         }
         const salt = 10
         const password = createdUser.password
         createdUser.password = await bcrypt.hash(password, salt)
-        // console.log(createdUser.password)
         return createdUser.save()
     }
 
