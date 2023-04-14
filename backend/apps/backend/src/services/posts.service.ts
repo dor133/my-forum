@@ -48,4 +48,12 @@ export class PostsService {
         }
         return existingPost
     }
+
+    async delete(id: string, userId: string): Promise<PostForum> {
+        const existingPost = await this.postModel.findOneAndDelete({ _id: id, authorId: userId }, { projection: { _id: 1 } }).exec()
+        if (!existingPost) {
+            throw new NotFoundException(`Post with ID ${id} not found, or you don't have permission to delete it`)
+        }
+        return existingPost
+    }
 }

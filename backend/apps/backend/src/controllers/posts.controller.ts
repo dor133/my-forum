@@ -1,4 +1,4 @@
-import { Controller, Put, Get, Param, Post, Body, Request } from '@nestjs/common'
+import { Controller, Put, Get, Param, Post, Body, Request, Delete } from '@nestjs/common'
 import { PostsService } from '../services/posts.service'
 import { PostForum } from '@app/models/posts/post.schema'
 import { PostParamDto } from '../services/dto/post-param.dto'
@@ -30,5 +30,10 @@ export class PostsController {
     @Put(':id')
     putPost(@Body() updatePostDto: UpdatePostDto, @Param() params: PostParamDto, @Request() req): Promise<PostForum> {
         return this.postsService.update(updatePostDto, params.id, req.user.userId)
+    }
+
+    @Delete(':id')
+    deletePost(@Param() params: PostParamDto, @Request() req): Promise<PostForum> {
+        return this.postsService.delete(params.id, req.user.userId)
     }
 }
