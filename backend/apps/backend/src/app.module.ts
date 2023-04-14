@@ -12,6 +12,9 @@ import { JwtAuthGuard } from '@app/auth/jwt-auth.guard'
 import { PostsController } from './controllers/posts.controller'
 import { PostsService } from './services/posts.service'
 import { PostForum, PostForumSchema } from '@app/models/posts/post.schema'
+import { CommentsController } from './controllers/comments.controller'
+import { CommentsService } from './services/comments.service'
+import { CommentSchema, Comment } from '@app/models/comments/comment.schema'
 
 @Module({
     imports: [
@@ -21,10 +24,11 @@ import { PostForum, PostForumSchema } from '@app/models/posts/post.schema'
         MongooseModule.forRoot(process.env.MONGO_URI, { dbName: 'my-forum' }),
         MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
         MongooseModule.forFeature([{ name: PostForum.name, schema: PostForumSchema }]),
+        MongooseModule.forFeature([{ name: Comment.name, schema: CommentSchema }]),
         UsersModule,
         AuthModule,
     ],
-    controllers: [AppController, UsersController, AuthController, PostsController],
+    controllers: [AppController, UsersController, AuthController, PostsController, CommentsController],
     providers: [
         AppService,
         {
@@ -32,6 +36,7 @@ import { PostForum, PostForumSchema } from '@app/models/posts/post.schema'
             useClass: JwtAuthGuard,
         },
         PostsService,
+        CommentsService,
     ],
 })
 export class AppModule {}
