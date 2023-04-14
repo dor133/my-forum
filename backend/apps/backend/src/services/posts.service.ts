@@ -6,10 +6,15 @@ import { CreatePostDto } from './dto/create-post.dto'
 import { User, UserDocument } from '@app/models/users/user.schema'
 import { UpdatePostDto } from './dto/update-post.dto'
 import * as mongoose from 'mongoose'
+import { Comment, CommentDocument } from '@app/models/comments/comment.schema'
 
 @Injectable()
 export class PostsService {
-    constructor(@InjectModel(PostForum.name) private postModel: Model<PostForumDocument>, @InjectModel(User.name) private userModel: Model<UserDocument>) {}
+    constructor(
+        @InjectModel(PostForum.name) private postModel: Model<PostForumDocument>,
+        @InjectModel(User.name) private userModel: Model<UserDocument>,
+        @InjectModel(Comment.name) private commentModel: Model<CommentDocument>
+    ) {}
 
     async findAll(): Promise<PostForum[]> {
         const existingPosts = this.postModel.find().exec()
@@ -33,11 +38,9 @@ export class PostsService {
         // if (existingPost) {
         //     throw new ConflictException('Post with this title already exists')
         // }
-        const user = new this.userModel()
-        // console.log(userId)
-        user._id = new mongoose.Types.ObjectId(userId)
+        const user = new this.userModel({ _id: userId })
         createdPost.authorId = user
-        // console.log(createdPost.authorId)
+        console.log(createdPost.authorId)
         return createdPost.save()
     }
 
@@ -54,6 +57,8 @@ export class PostsService {
         if (!existingPost) {
             throw new NotFoundException(`Post with ID ${id} not found, or you don't have permission to delete it`)
         }
+        // const existingCommentsIds = await this.commentModel.find({ postId: id }, { _id: 1 }).exec()
+        await this.commentModel.deleteMany({ postId: id }).exec()
         return existingPost
     }
 }
