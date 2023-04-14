@@ -8,6 +8,7 @@ import { User, UserSchema } from '@app/models/users/user.schema'
 import { AuthController } from './controllers/auth.controller'
 import { UsersModule } from '@app/users'
 import { AuthModule } from '@app/auth'
+import { JwtAuthGuard } from '@app/auth/jwt-auth.guard'
 
 @Module({
     imports: [
@@ -20,6 +21,12 @@ import { AuthModule } from '@app/auth'
         AuthModule,
     ],
     controllers: [AppController, UsersController, AuthController],
-    providers: [AppService],
+    providers: [
+        AppService,
+        {
+            provide: 'APP_GUARD',
+            useClass: JwtAuthGuard,
+        },
+    ],
 })
 export class AppModule {}
