@@ -46,7 +46,10 @@ export class UsersService {
         return createdUser.save()
     }
 
-    async update(updateUserDto: UpdateUserDto, id: string): Promise<User> {
+    async update(updateUserDto: UpdateUserDto, id: string, userId: string): Promise<User> {
+        if (id !== userId) {
+            throw new NotFoundException(`You don't have permission to edit this user`)
+        }
         const existingUser = await this.userModel.findByIdAndUpdate(id, updateUserDto, { new: true, projection: { _id: 1 } }).exec()
         if (!existingUser) {
             throw new NotFoundException(`User with ID ${id} not found`)
