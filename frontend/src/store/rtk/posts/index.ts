@@ -9,7 +9,13 @@ const postsEndpoints = rtkApi.injectEndpoints({
                 method: 'GET',
             }),
         }),
+        getPost: build.query<PostQueryData, string>({
+            query: (id) => ({
+                url: `posts/${id}`,
+                method: 'GET',
+            }),
+        }),
     }),
 })
 
-export const { useGetPostsQuery } = postsEndpoints
+export const { useGetPostsQuery, useGetPostQuery } = postsEndpoints

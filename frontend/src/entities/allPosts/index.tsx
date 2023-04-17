@@ -3,7 +3,7 @@ import { Text } from '../../core/Text'
 import { useGetPostsQuery } from '../../store/rtk/posts'
 
 export function AllPosts() {
-    const { data, error } = useGetPostsQuery()
+    const { data } = useGetPostsQuery()
 
     return (
         <>
@@ -13,7 +13,9 @@ export function AllPosts() {
                     <ul className="list-disc list-inside">
                         {data?.map((post) => (
                             <li key={post._id}>
-                                {post.title}, by: {post.authorId}
+                                <a href={`/posts/${post._id}`}>
+                                    {post.title}, by: {post.authorId}
+                                </a>
                             </li>
                         ))}
                     </ul>
