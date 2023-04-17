@@ -17,3 +17,11 @@ export type UserStoreType = {
     setCurrentUser: (token: string) => void
     logOut: () => void
 }
+
+export type PostQueryData = {
+    _id: string
+    title: string
+    text: string
+    createdDate: Date
+    authorId: string
+}

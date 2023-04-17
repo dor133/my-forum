@@ -9,7 +9,7 @@ import { Text } from '../../core/Text'
 import { Stack } from '../../core/Stack'
 
 export function Tuto() {
-    return(
+    return (
         <Card>
             <Stack spacing={6}>
                 <Center>
@@ -17,7 +17,7 @@ export function Tuto() {
                 </Center>
 
                 <Stack>
-                    <Text variant='paragraph'></Text>
+                    <Text variant="paragraph"></Text>
                 </Stack>
 
                 <Stack spacing={1}>
@@ -38,49 +38,49 @@ export function Tuto() {
                 {/* <Button onClick={() => setShowCoreComponents(!showCoreComponents)}>Voir les composants réutilisables</Button> */}
 
                 {/* {showCoreComponents && ( */}
-                    <>
-                        <Stack>
-                            <Text variant="subtitle">
-                                <code>Group</code> et <code>Button</code>
-                            </Text>
+                <>
+                    <Stack>
+                        <Text variant="subtitle">
+                            <code>Group</code> et <code>Button</code>
+                        </Text>
 
-                            <Group>
-                                {(['xs', 'sm', 'md', 'lg', 'xl'] as const).map((size) => (
-                                    <div key={size}>
-                                        <Button size={size}>Button {size}</Button>
-                                    </div>
-                                ))}
-                            </Group>
-                        </Stack>
+                        <Group>
+                            {(['xs', 'sm', 'md', 'lg', 'xl'] as const).map((size) => (
+                                <div key={size}>
+                                    <Button size={size}>Button {size}</Button>
+                                </div>
+                            ))}
+                        </Group>
+                    </Stack>
 
+                    <Stack>
+                        <Text variant="subtitle">
+                            <code>Stack</code> et <code>Input</code>
+                        </Text>
                         <Stack>
-                            <Text variant="subtitle">
-                                <code>Stack</code> et <code>Input</code>
-                            </Text>
-                            <Stack>
-                                <Input id="select1" label="Input de test" placeholder="Placeholder" infoLabel="Je suis un message informatif optionnel" />
-                                <Input id="select2" label="Input avec des erreurs" errorLabel="Ce champ contient des erreurs" placeholder="Placeholder" />
-                            </Stack>
+                            <Input id="select1" label="Input de test" placeholder="Placeholder" infoLabel="Je suis un message informatif optionnel" />
+                            <Input id="select2" label="Input avec des erreurs" errorLabel="Ce champ contient des erreurs" placeholder="Placeholder" />
                         </Stack>
+                    </Stack>
 
-                        <Stack>
-                            <Text variant="subtitle">
-                                <code>Select</code>
-                            </Text>
-                            <Select id="select" label="Label">
-                                {[1, 2, 3].map((nb) => (
-                                    <option key={nb}>Option {nb}</option>
-                                ))}
-                            </Select>
-                        </Stack>
+                    <Stack>
+                        <Text variant="subtitle">
+                            <code>Select</code>
+                        </Text>
+                        <Select id="select" label="Label">
+                            {[1, 2, 3].map((nb) => (
+                                <option key={nb}>Option {nb}</option>
+                            ))}
+                        </Select>
+                    </Stack>
 
-                        <Stack>
-                            <Text variant="subtitle">
-                                <code>Checkbox</code>
-                            </Text>
-                            <Checkbox id="checkbox" label="Label" />
-                        </Stack>
-                    </>
+                    <Stack>
+                        <Text variant="subtitle">
+                            <code>Checkbox</code>
+                        </Text>
+                        <Checkbox id="checkbox" label="Label" />
+                    </Stack>
+                </>
                 {/* )} */}
             </Stack>
         </Card>
