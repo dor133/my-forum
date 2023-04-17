@@ -1,11 +1,12 @@
 import cx from 'classnames'
-import { Justify, justifyMap } from '../types'
+import { Justify, justifyMap, Align, alignMap } from '../types'
 
 type Sizes = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
 
 type Props = JSX.IntrinsicElements['div'] & {
     spacing?: Sizes
     justify?: Justify
+    align?: Align
 }
 
 const sizes: Record<Sizes, string> = {
@@ -23,9 +24,12 @@ const sizes: Record<Sizes, string> = {
     '12': 'space-x-12',
 }
 
-export function Group({ spacing = 2, justify, children, className, ...rest }: Props) {
+export function Group({ spacing = 2, justify, align, children, className, ...rest }: Props) {
     return (
-        <div className={cx('flex flex-row flex-wrap', sizes[spacing], justify ? justifyMap[justify] : undefined, className)} {...rest}>
+        <div
+            className={cx('flex flex-row flex-wrap', sizes[spacing], justify ? justifyMap[justify] : undefined, align ? alignMap[align] : undefined, className)}
+            {...rest}
+        >
             {children}
         </div>
     )
