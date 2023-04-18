@@ -5,19 +5,20 @@ import useAuthStore from '../../store/auth/auth.store'
 import { useLoginMutation } from '../../store/rtk/auth'
 
 export function Header() {
+    const { access_token } = useAuthStore()
     return (
         <>
             <Group spacing={6} justify="between" className="items-center">
                 <Text variant="title">My forum</Text>
                 <Text variant="paragraph">
-                    <a href="/tuto">
+                    <a href="/login">
                         <Button size="lg">Log in</Button>
                     </a>
                 </Text>
             </Group>
 
             {/* If user connected => */}
-            <Text variant="paragraph">Bienvenue (user) !</Text>
+            <Text variant="paragraph">Bienvenue {access_token} !</Text>
         </>
     )
 }
