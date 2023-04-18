@@ -5,28 +5,19 @@ import { Center } from '../../core/Center'
 import { Stack } from '../../core/Stack'
 import { Button } from '../../core/Button'
 import { useLoginMutation } from '../../store/rtk/auth'
-import { useFormik, Form } from 'formik'
-import { UserLoginQueryPayload } from '../security/types'
+import { useFormik } from 'formik'
 import { ExclamationCircleIcon } from '@heroicons/react/20/solid'
 import { Group } from '../../core/Group'
+import * as Yup from 'yup'
 
-const validate = (values: UserLoginQueryPayload) => {
-    const errors: Partial<UserLoginQueryPayload> = {}
-
-    if (!values.username) {
-        errors.username = "Nom d'utilisateur requis"
-    }
-
-    if (!values.password) {
-        errors.password = 'Mot de passe requis'
-    }
-
-    if (values.username && values.password) {
-        console.log('authenticated')
-    }
-
-    return errors
-}
+const loginSchema = Yup.object().shape({
+    username: Yup.string()
+        .min(3, "Nom d'utilisateur trop court")
+        .max(20, "Nom d'utilisateur trop long")
+        .matches(/^(?!.*[^\w\s.-])/gi, "Le nom d'utilisateur ne doit pas contenir de caractères spéciaux")
+        .required("Nom d'utilisateur requis"),
+    password: Yup.string().min(8, 'Mot de passe trop court').required('Mot de passe requis'),
+})
 
 export function LogIn() {
     const [login, { error, isLoading }] = useLoginMutation()
@@ -36,10 +27,12 @@ export function LogIn() {
             username: '',
             password: '',
         },
-        validate,
+        validationSchema: loginSchema,
         onSubmit: (values) => {
             login(values)
         },
+        validateOnBlur: false,
+        validateOnChange: false,
     })
 
     return (
@@ -52,7 +45,7 @@ export function LogIn() {
 
                     <Center>
                         <Text variant="label">
-                            <a href="#">Créer un compte</a>
+                            <a href="/register">Créer un compte</a>
                         </Text>
                     </Center>
                 </Stack>
@@ -70,59 +63,34 @@ export function LogIn() {
                     )}
 
                     <form className="space-y-4" onSubmit={formik.handleSubmit}>
-                        {!formik.errors.username ? (
-                            <Input
-                                id="username"
-                                name="username"
-                                type="text"
-                                autoComplete="username"
-                                label="Nom d'utilisateur"
-                                placeholder="Entrez votre nom d'utilisateur"
-                                onChange={formik.handleChange}
-                                value={formik.values.username}
-                            />
-                        ) : (
-                            <Input
-                                id="username"
-                                name="username"
-                                type="text"
-                                autoComplete="username"
-                                label="Nom d'utilisateur"
-                                placeholder="Entrez votre nom d'utilisateur"
-                                onChange={formik.handleChange}
-                                value={formik.values.username}
-                                errorLabel={formik.errors.username}
-                            />
-                        )}
+                        <Input
+                            id="username"
+                            name="username"
+                            type="text"
+                            autoComplete="username"
+                            label="Nom d'utilisateur"
+                            placeholder="Entrez votre nom d'utilisateur"
+                            onChange={formik.handleChange}
+                            value={formik.values.username}
+                            {...(formik.errors.username && { errorLabel: formik.errors.username })}
+                        />
 
-                        {!formik.errors.password ? (
-                            <Input
-                                id="password"
-                                name="password"
-                                type="password"
-                                autoComplete="current-password"
-                                label="Mot de passe"
-                                placeholder="Entrez votre mot de passe"
-                                onChange={formik.handleChange}
-                                value={formik.values.password}
-                            />
-                        ) : (
-                            <Input
-                                id="password"
-                                name="password"
-                                type="password"
-                                autoComplete="current-password"
-                                label="Mot de passe"
-                                placeholder="Entrez votre mot de passe"
-                                onChange={formik.handleChange}
-                                value={formik.values.password}
-                                errorLabel={formik.errors.password}
-                            />
-                        )}
-
-                        <Button size={'lg'} type="submit">
-                            Connexion
-                        </Button>
+                        <Input
+                            id="password"
+                            name="password"
+                            type="password"
+                            autoComplete="current-password"
+                            label="Mot de passe"
+                            placeholder="Entrez votre mot de passe"
+                            onChange={formik.handleChange}
+                            value={formik.values.password}
+                            {...(formik.errors.password && { errorLabel: formik.errors.password })}
+                        />
+                        <Center>
+                            <Button size={'lg'} type="submit">
+                                Connexion
+                            </Button>
+                        </Center>
                     </form>
                 </Stack>
             </Stack>

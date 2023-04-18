@@ -24,7 +24,14 @@ const authEndpoints = rtkApi.injectEndpoints({
                 await cacheEntryRemoved
             },
         }),
+        register: build.mutation<UserLoginQueryData, UserLoginQueryPayload>({
+            query: (data) => ({
+                url: '/users',
+                method: 'POST',
+                data,
+            }),
+        }),
     }),
 })
 
-export const { useLoginMutation } = authEndpoints
+export const { useLoginMutation, useRegisterMutation } = authEndpoints

@@ -7,6 +7,12 @@ export type UserLoginQueryData = {
     access_token: string
 }
 
+export type UserRegisterQueryPayload = {
+    username: string
+    password: string
+    email: string
+}
+
 export type JWTPayload = {
     _id: string
 }
