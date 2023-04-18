@@ -6,7 +6,7 @@ const authEndpoints = rtkApi.injectEndpoints({
     endpoints: (build) => ({
         login: build.mutation<UserLoginQueryData, UserLoginQueryPayload>({
             query: (data) => ({
-                url: 'login',
+                url: '/auth/login',
                 method: 'POST',
                 data,
             }),

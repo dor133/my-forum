@@ -2,7 +2,6 @@ import { Button } from '../../core/Button'
 import { Group } from '../../core/Group'
 import { Text } from '../../core/Text'
 import useAuthStore from '../../store/auth/auth.store'
-import { useLoginMutation } from '../../store/rtk/auth'
 
 export function Header() {
     const { access_token } = useAuthStore()
@@ -18,7 +17,7 @@ export function Header() {
             </Group>
 
             {/* If user connected => */}
-            <Text variant="paragraph">Bienvenue {access_token} !</Text>
+            <Text variant="paragraph">Bienvenue !</Text>
         </>
     )
 }

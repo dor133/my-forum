@@ -4,41 +4,45 @@ import { Input } from '../../core/Input'
 import { Center } from '../../core/Center'
 import { Stack } from '../../core/Stack'
 import { Button } from '../../core/Button'
+import { useLoginMutation } from '../../store/rtk/auth'
+import { useFormik, Form } from 'formik'
+import { UserLoginQueryPayload } from '../security/types'
+import { ExclamationCircleIcon } from '@heroicons/react/20/solid'
+import { Group } from '../../core/Group'
+
+const validate = (values: UserLoginQueryPayload) => {
+    const errors: Partial<UserLoginQueryPayload> = {}
+
+    if (!values.username) {
+        errors.username = "Nom d'utilisateur requis"
+    }
+
+    if (!values.password) {
+        errors.password = 'Mot de passe requis'
+    }
+
+    if (values.username && values.password) {
+        console.log('authenticated')
+    }
+
+    return errors
+}
 
 export function LogIn() {
+    const [login, { error, isLoading }] = useLoginMutation()
+
+    const formik = useFormik({
+        initialValues: {
+            username: '',
+            password: '',
+        },
+        validate,
+        onSubmit: (values) => {
+            login(values)
+        },
+    })
+
     return (
-        // <div className="flex min-h-full items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-        //     <Card>
-        //         <Stack>
-        //             <Center>
-        //                 <Text variant="title">Connectez-vous à votre compte</Text>
-        //                 <Text variant="paragraph">
-        //                     <a href="/">Créer un compte</a>
-        //                 </Text>
-        //             </Center>
-
-        //             <form className="space-y-4" action="#" method="post">
-        //                 <Input
-        //                     id="username"
-        //                     name="username"
-        //                     type="text"
-        //                     autoComplete="username"
-        //                     label="Nom d'utilisateur"
-        //                     placeholder="Entrez votre nom d'utilisateur"
-        //                 />
-        //                 <Input
-        //                     id="password"
-        //                     name="password"
-        //                     type="password"
-        //                     autoComplete="current-password"
-        //                     label="Mot de passe"
-        //                     placeholder="Entrez votre mot de passe"
-        //                 />
-        //             </form>
-        //         </Stack>
-        //     </Card>
-        // </div>
-
         <Card>
             <Stack spacing={8}>
                 <Stack spacing={1}>
@@ -48,33 +52,79 @@ export function LogIn() {
 
                     <Center>
                         <Text variant="label">
-                            <a href="/">Créer un compte</a>
+                            <a href="#">Créer un compte</a>
                         </Text>
                     </Center>
                 </Stack>
 
                 <Stack spacing={4}>
-                    <form className="space-y-4" action="#" method="post">
-                        <Input
-                            id="username"
-                            name="username"
-                            type="text"
-                            autoComplete="username"
-                            label="Nom d'utilisateur"
-                            placeholder="Entrez votre nom d'utilisateur"
-                        />
-                        <Input
-                            id="password"
-                            name="password"
-                            type="password"
-                            autoComplete="current-password"
-                            label="Mot de passe"
-                            placeholder="Entrez votre mot de passe"
-                        />
+                    {error != null && (
+                        <>
+                            <Group className="items-center">
+                                <ExclamationCircleIcon className="h-5 w-5 text-red-500" aria-hidden="true" />
+                                <Text variant="label" className="text-red-500">
+                                    Identifiants incorrects
+                                </Text>
+                            </Group>
+                        </>
+                    )}
+
+                    <form className="space-y-4" onSubmit={formik.handleSubmit}>
+                        {!formik.errors.username ? (
+                            <Input
+                                id="username"
+                                name="username"
+                                type="text"
+                                autoComplete="username"
+                                label="Nom d'utilisateur"
+                                placeholder="Entrez votre nom d'utilisateur"
+                                onChange={formik.handleChange}
+                                value={formik.values.username}
+                            />
+                        ) : (
+                            <Input
+                                id="username"
+                                name="username"
+                                type="text"
+                                autoComplete="username"
+                                label="Nom d'utilisateur"
+                                placeholder="Entrez votre nom d'utilisateur"
+                                onChange={formik.handleChange}
+                                value={formik.values.username}
+                                errorLabel={formik.errors.username}
+                            />
+                        )}
+
+                        {!formik.errors.password ? (
+                            <Input
+                                id="password"
+                                name="password"
+                                type="password"
+                                autoComplete="current-password"
+                                label="Mot de passe"
+                                placeholder="Entrez votre mot de passe"
+                                onChange={formik.handleChange}
+                                value={formik.values.password}
+                            />
+                        ) : (
+                            <Input
+                                id="password"
+                                name="password"
+                                type="password"
+                                autoComplete="current-password"
+                                label="Mot de passe"
+                                placeholder="Entrez votre mot de passe"
+                                onChange={formik.handleChange}
+                                value={formik.values.password}
+                                errorLabel={formik.errors.password}
+                            />
+                        )}
+
+                        <Button size={'lg'} type="submit">
+                            Connexion
+                        </Button>
                     </form>
                 </Stack>
-
-                <Button size={'lg'}>Connexion</Button>
             </Stack>
         </Card>
     )

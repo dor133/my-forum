@@ -1,5 +1,5 @@
 export type UserLoginQueryPayload = {
-    email: string
+    username: string
     password: string
 }
 
