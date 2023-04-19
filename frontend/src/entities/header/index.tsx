@@ -5,6 +5,7 @@ import useAuthStore from '../../store/auth/auth.store'
 
 export function Header() {
     const { access_token } = useAuthStore()
+    console.log(access_token)
     return (
         <>
             <Group spacing={6} justify="between" className="items-center">
@@ -16,8 +17,7 @@ export function Header() {
                 </Text>
             </Group>
 
-            {/* If user connected => */}
-            <Text variant="paragraph">Bienvenue !</Text>
+            {access_token && <Text variant="paragraph">Bienvenue !</Text>}
         </>
     )
 }
