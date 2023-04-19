@@ -9,6 +9,8 @@ import { useFormik } from 'formik'
 import { ExclamationCircleIcon } from '@heroicons/react/20/solid'
 import { Group } from '../../core/Group'
 import * as Yup from 'yup'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const registerSchema = Yup.object().shape({
     username: Yup.string()
@@ -21,7 +23,9 @@ const registerSchema = Yup.object().shape({
 })
 
 export function Register() {
-    const [register, { error, isLoading }] = useRegisterMutation()
+    const navigate = useNavigate()
+
+    const [register, { error, isSuccess, isError }] = useRegisterMutation()
 
     const formik = useFormik({
         initialValues: {
@@ -37,9 +41,14 @@ export function Register() {
         validateOnChange: false,
     })
 
+    useEffect(() => {
+        if (isSuccess) {
+            navigate('/login')
+        }
+    }, [isSuccess, isError])
+
     return (
         <Card>
-            {formik.isValid && <div>valid</div>}
             <Stack spacing={8}>
                 <Stack spacing={1}>
                     <Center>

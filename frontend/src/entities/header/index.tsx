@@ -12,7 +12,7 @@ export function Header() {
                 <Text variant="title">My forum</Text>
                 <Text variant="paragraph">
                     <a href="/login">
-                        <Button size="lg">Log in</Button>
+                        <Button size="lg">Se connecter</Button>
                     </a>
                 </Text>
             </Group>
