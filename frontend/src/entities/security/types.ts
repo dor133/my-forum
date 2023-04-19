@@ -37,3 +37,11 @@ export type UserQueryData = {
     _id: string
     username: string
 }
+
+export type CommentQueryData = {
+    _id: string
+    text: string
+    createdDate: Date
+    authorId: string
+    postId: string
+}
