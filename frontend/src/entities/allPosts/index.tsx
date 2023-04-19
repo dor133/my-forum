@@ -13,9 +13,7 @@ export function AllPosts() {
                     <ul className="list-disc list-inside">
                         {data?.map((post) => (
                             <li key={post._id}>
-                                <a href={`/posts/${post._id}`}>
-                                    {post.title}, by: {post.authorId}
-                                </a>
+                                <a href={`/posts/${post._id}`}>{post.title}</a>
                             </li>
                         ))}
                     </ul>

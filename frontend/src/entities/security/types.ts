@@ -32,3 +32,8 @@ export type PostQueryData = {
     createdDate: Date
     authorId: string
 }
+
+export type UserQueryData = {
+    _id: string
+    username: string
+}
