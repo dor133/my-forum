@@ -11,8 +11,8 @@ export class CommentsController {
 
     @Public()
     @Get()
-    getComments(): Promise<Comment[]> {
-        return this.commentsService.findAll()
+    getComments(@Param() params: CommentParamDto): Promise<Comment[]> {
+        return this.commentsService.findAll(params.postId)
     }
 
     @Public()

@@ -15,8 +15,8 @@ export class CommentsService {
         @InjectModel(PostForum.name) private postModel: Model<PostForumDocument>
     ) {}
 
-    async findAll(): Promise<Comment[]> {
-        const existingComments = this.commentModel.find().exec()
+    async findAll(postId: string): Promise<Comment[]> {
+        const existingComments = this.commentModel.find({ postId: postId }).exec()
         if (!existingComments) {
             throw new NotFoundException('No comments found')
         }
