@@ -16,6 +16,7 @@ export class UsersController {
         return this.usersService.findAll()
     }
 
+    @Public()
     @Get(':id')
     getUser(@Param() params: UserParamDto): Promise<User> {
         return this.usersService.findOneById(params.id)
