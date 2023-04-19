@@ -14,7 +14,8 @@ export type UserRegisterQueryPayload = {
 }
 
 export type JWTPayload = {
-    _id: string
+    username: string
+    sub: string
 }
 
 export type UserStoreType = {

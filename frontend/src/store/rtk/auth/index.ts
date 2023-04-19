@@ -1,6 +1,8 @@
 import { rtkApi } from '..'
 import { UserLoginQueryData, UserLoginQueryPayload } from '../../../entities/security/types'
 import useAuthStore from '../../auth/auth.store'
+import decode from 'jwt-decode'
+import { JWTPayload } from '../../../entities/security/types'
 
 const authEndpoints = rtkApi.injectEndpoints({
     endpoints: (build) => ({

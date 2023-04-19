@@ -4,20 +4,35 @@ import { Text } from '../../core/Text'
 import useAuthStore from '../../store/auth/auth.store'
 
 export function Header() {
-    const { access_token } = useAuthStore()
-    console.log(access_token)
+    const { payload } = useAuthStore()
+
+    const handleClick = () => {
+        useAuthStore.getState().logOut()
+    }
+
     return (
         <>
             <Group spacing={6} justify="between" className="items-center">
                 <Text variant="title">My forum</Text>
                 <Text variant="paragraph">
+                    {/* {!payload?.username ? (
+                        <a href="/login">
+                            <Button size="lg">Se connecter</Button>
+                        </a>
+                    ) : (
+                        <a href="/">
+                            <Button size="lg" onClick={handleClick}>
+                                Se déconnecter
+                            </Button>
+                        </a>
+                    )} */}
                     <a href="/login">
                         <Button size="lg">Se connecter</Button>
                     </a>
                 </Text>
             </Group>
 
-            {access_token && <Text variant="paragraph">Bienvenue !</Text>}
+            {payload?.username && <Text variant="paragraph">Bienvenue {payload.username} !</Text>}
         </>
     )
 }
