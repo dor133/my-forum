@@ -1,5 +1,6 @@
 import { Button } from '../../core/Button'
 import { Group } from '../../core/Group'
+import { Stack } from '../../core/Stack'
 import { Text } from '../../core/Text'
 import useAuthStore from '../../store/auth/auth.store'
 
@@ -15,19 +16,24 @@ export function Header() {
             <Group spacing={6} justify="between" className="items-center">
                 <Text variant="title">My forum</Text>
                 <Text variant="paragraph">
-                    {!payload?.username ? (
+                    {!payload ? (
                         <a href="/login">
                             <Button size="lg">Se connecter</Button>
                         </a>
                     ) : (
-                        <Button size="lg" onClick={handleClick}>
-                            Se déconnecter
-                        </Button>
+                        <Stack>
+                            <a href="/profile">
+                                <Button size="lg">Mon profil</Button>
+                            </a>
+                            <Button size="lg" onClick={handleClick}>
+                                Se déconnecter
+                            </Button>
+                        </Stack>
                     )}
                 </Text>
             </Group>
 
-            {payload?.username && <Text variant="paragraph">Bienvenue {payload.username} !</Text>}
+            {payload && <Text variant="paragraph">Bienvenue {payload.username} !</Text>}
         </>
     )
 }

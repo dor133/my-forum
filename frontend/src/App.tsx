@@ -5,6 +5,7 @@ import { Post } from './entities/post'
 import { LogIn } from './entities/logIn'
 import { Register } from './entities/register'
 import { NewPost } from './entities/newPost'
+import { Profile } from './entities/profile'
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
             <Route path="/posts/new" element={<NewPost />} />
             <Route path="/login" element={<LogIn />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/profile" element={<Profile />} />
         </Routes>
     )
 }
