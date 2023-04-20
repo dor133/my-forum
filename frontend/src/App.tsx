@@ -6,7 +6,7 @@ import { LogIn } from './entities/logIn'
 import { Register } from './entities/register'
 import { NewPost } from './entities/newPost'
 import { Profile } from './entities/profile'
-import { ProtectedRoute } from './services/protectedRoute'
+import { ProtectedRoute } from './entities/security/protectedRoute'
 
 function App() {
     return (

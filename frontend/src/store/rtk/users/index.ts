@@ -1,5 +1,5 @@
 import { rtkApi } from '..'
-import { UserQueryData } from '../../../entities/security/types'
+import { PostQueryData, UserQueryData } from '../../../entities/security/types'
 
 const usersEndpoints = rtkApi.injectEndpoints({
     endpoints: (build) => ({
@@ -16,7 +16,14 @@ const usersEndpoints = rtkApi.injectEndpoints({
                 method: 'GET',
             }),
         }),
+
+        getUserPosts: build.query<PostQueryData[], string>({
+            query: (id) => ({
+                url: `users/${id}/posts`,
+                method: 'GET',
+            }),
+        }),
     }),
 })
 
-export const { useGetUsersQuery, useGetUserQuery } = usersEndpoints
+export const { useGetUsersQuery, useGetUserQuery, useGetUserPostsQuery } = usersEndpoints

@@ -41,6 +41,7 @@ export type PostQueryData = {
 export type UserQueryData = {
     _id: string
     username: string
+    createdDate: Date
 }
 
 export type CommentQueryData = {

@@ -1,12 +1,15 @@
 import { Card } from '../../core/Card'
 import { Center } from '../../core/Center'
-import { Group } from '../../core/Group'
 import { Stack } from '../../core/Stack'
 import { Text } from '../../core/Text'
 import useAuthStore from '../../store/auth/auth.store'
+import { useGetUserQuery, useGetUserPostsQuery } from '../../store/rtk/users'
 
 export function Profile() {
     const { payload } = useAuthStore()
+    const { data: user } = useGetUserQuery(payload!.sub)
+    const { data: posts } = useGetUserPostsQuery(payload!.sub)
+    const userDate = new Date(user?.createdDate!)
 
     return (
         <Card>
@@ -17,6 +20,45 @@ export function Profile() {
             <Center>
                 <Text variant="title">{payload?.username}</Text>
             </Center>
+
+            <Center>
+                <Text variant="label">Membre depuis le {userDate.toLocaleDateString()}</Text>
+            </Center>
+
+            <Stack>
+                <Text variant="paragraph">
+                    Nombre de posts : <span className="font-bold">{posts?.length}</span>
+                </Text>
+                <Text variant="paragraph">
+                    Nombre de commentaires : <span className="font-bold">0</span>
+                </Text>
+
+                <div className="border-t border-gray-200 py-1.5">
+                    <Text variant="subtitle">Mes posts</Text>
+                    <ul className="list-disc list-inside">
+                        {posts?.map((post) => (
+                            <li key={post._id}>
+                                <a href={`/posts/${post._id}`} className="text-base leading-7 text-gray-700">
+                                    {post.title}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                {/* <div className="border-t border-gray-200 py-1.5">
+                    <Text variant="subtitle">Mes Commentaires</Text>
+                    <ul className="list-disc list-inside">
+                        {posts?.map((post) => (
+                            <li key={post._id}>
+                                <a href={`/posts/${post._id}`} className="text-base leading-7 text-gray-700">
+                                    {post.title}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                </div> */}
+            </Stack>
         </Card>
     )
 }
