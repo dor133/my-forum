@@ -6,6 +6,7 @@ import { LogIn } from './entities/logIn'
 import { Register } from './entities/register'
 import { NewPost } from './entities/newPost'
 import { Profile } from './entities/profile'
+import { ProtectedRoute } from './services/protectedRoute'
 
 function App() {
     return (
@@ -13,10 +14,24 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/tuto" element={<Tuto />} />
             <Route path="/posts/:id" element={<Post />} />
-            <Route path="/posts/new" element={<NewPost />} />
+            <Route
+                path="/posts/new"
+                element={
+                    <ProtectedRoute>
+                        <NewPost />
+                    </ProtectedRoute>
+                }
+            />
             <Route path="/login" element={<LogIn />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route
+                path="/profile"
+                element={
+                    <ProtectedRoute>
+                        <Profile />
+                    </ProtectedRoute>
+                }
+            />
         </Routes>
     )
 }
