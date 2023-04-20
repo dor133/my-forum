@@ -9,16 +9,12 @@ import { useGetCommentsQuery } from '../../store/rtk/comments'
 export function Post() {
     const { id } = useParams()
     const { data: post, isError: errorPost, isLoading: isPostLoading } = useGetPostQuery(id!)
-    // fool method to get the author username and comments
     const { data: author, isError: errorUser, isLoading: isUserLoading } = useGetUserQuery(post?.authorId!)
     const { data: comments, isError: errorComments, isLoading: isCommentsLoading } = useGetCommentsQuery(id!)
     const errors = [errorPost, errorUser, errorComments]
     const isLoading = [isPostLoading, isUserLoading, isCommentsLoading]
-    // errors.includes(true) ? console.log('error') : console.log('no error')
-    // isLoading.includes(true) ? console.log('loading') : console.log('loaded')
     const haveComments = comments ? comments.length > 0 : false
-    console.log(haveComments)
-    const date = new Date(post?.createdDate!)
+    const postDate = new Date(post?.createdDate!)
 
     return (
         <div className="space-y-4">
@@ -32,7 +28,8 @@ export function Post() {
                         <Stack spacing={4}>
                             <Text variant="title">{post?.title}</Text>
                             <Text variant="label">
-                                Post créé le <span className="italic">{date.toLocaleDateString()}</span> par <span className="italic">{author?.username}</span>
+                                Post créé le <span className="italic">{postDate.toLocaleDateString()}</span> par{' '}
+                                <span className="italic">{author?.username}</span>
                             </Text>
                         </Stack>
                     </Card>
@@ -46,11 +43,17 @@ export function Post() {
                         {haveComments ? (
                             comments?.map((comment) => (
                                 <div key={comment._id} className="border-t border-gray-200">
+                                    <Text variant="label">
+                                        De <span className="italic">{comment.author.username}</span> le{' '}
+                                        <span className="italic">{new Date(comment.createdDate).toLocaleDateString()}</span>
+                                    </Text>
                                     <Text variant="paragraph">{comment.text}</Text>
                                 </div>
                             ))
                         ) : (
-                            <Text variant="paragraph">Pas de commentaires</Text>
+                            <Text variant="label" className="border-t border-gray-200">
+                                Pas de commentaires
+                            </Text>
                         )}
                     </Card>
                 </>

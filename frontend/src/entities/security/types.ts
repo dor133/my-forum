@@ -42,6 +42,6 @@ export type CommentQueryData = {
     _id: string
     text: string
     createdDate: Date
-    authorId: string
+    author: UserQueryData
     postId: string
 }
