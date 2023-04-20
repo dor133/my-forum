@@ -50,3 +50,8 @@ export type CommentQueryData = {
     author: UserQueryData
     postId: string
 }
+
+export type CommentQueryPayload = {
+    postId: string | undefined
+    data: { text: string }
+}

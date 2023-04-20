@@ -4,6 +4,7 @@ import { Card } from '../../core/Card'
 import { Text } from '../../core/Text'
 import { Stack } from '../../core/Stack'
 import { useGetCommentsQuery } from '../../store/rtk/comments'
+import { NewComment } from '../newComment'
 
 export function Post() {
     const { id } = useParams()
@@ -22,7 +23,7 @@ export function Post() {
                 <div>Loading...</div>
             ) : post ? (
                 <>
-                    <Card>
+                    <Card id="head">
                         <Stack spacing={4}>
                             <Text variant="title">{post?.title}</Text>
                             <Text variant="label">
@@ -32,27 +33,30 @@ export function Post() {
                         </Stack>
                     </Card>
 
-                    <Card>
+                    <Card id="content">
                         <Text variant="paragraph">{post.text}</Text>
                     </Card>
 
-                    <Card>
-                        <Text variant="subtitle">Commentaires</Text>
-                        {haveComments ? (
-                            comments?.map((comment) => (
-                                <div key={comment._id} className="border-t border-gray-200">
-                                    <Text variant="label">
-                                        De <span className="italic">{comment.author.username}</span> le{' '}
-                                        <span className="italic">{new Date(comment.createdDate).toLocaleDateString()}</span>
-                                    </Text>
-                                    <Text variant="paragraph">{comment.text}</Text>
-                                </div>
-                            ))
-                        ) : (
-                            <Text variant="label" className="border-t border-gray-200">
-                                Pas de commentaires
-                            </Text>
-                        )}
+                    <Card id="comments">
+                        <Stack spacing={4}>
+                            <Text variant="subtitle">Commentaires ({comments?.length})</Text>
+
+                            <NewComment />
+
+                            {haveComments ? (
+                                comments?.map((comment) => (
+                                    <div key={comment._id} className="border-t border-gray-200">
+                                        <Text variant="label">
+                                            De <span className="italic">{comment.author.username}</span> le{' '}
+                                            <span className="italic">{new Date(comment.createdDate).toLocaleDateString()}</span>
+                                        </Text>
+                                        <Text variant="paragraph">{comment.text}</Text>
+                                    </div>
+                                ))
+                            ) : (
+                                <Text variant="label">Pas de commentaires</Text>
+                            )}
+                        </Stack>
                     </Card>
                 </>
             ) : null}

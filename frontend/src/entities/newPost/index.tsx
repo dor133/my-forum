@@ -30,7 +30,7 @@ export function NewPost() {
         },
         validationSchema: postSchema,
         onSubmit: (values) => {
-            createPost(values).then((res) => {
+            createPost(values).then(() => {
                 navigate(`/`)
             })
         },
@@ -73,7 +73,6 @@ export function NewPost() {
                     <TextArea
                         id="text"
                         name="text"
-                        className="resize-none block w-full rounded-md border-0 pl-2 py-1.5 shadow-sm ring-1 ring-inset focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6 focus:outline-none placeholder:italic text-gray-900 ring-gray-300 placeholder:text-gray-400 focus:ring-primary-600 pr-2"
                         placeholder="Entrez le contenu"
                         label="Contenu"
                         size={56}

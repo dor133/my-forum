@@ -1,5 +1,5 @@
 import { rtkApi } from '..'
-import { CommentQueryData } from '../../../entities/security/types'
+import { CommentQueryData, CommentQueryPayload } from '../../../entities/security/types'
 
 const commmentsEndpoints = rtkApi.injectEndpoints({
     endpoints: (build) => ({
@@ -8,8 +8,18 @@ const commmentsEndpoints = rtkApi.injectEndpoints({
                 url: `posts/${postId}/comments`,
                 method: 'GET',
             }),
+            providesTags: ['Comments'],
+        }),
+
+        createComment: build.mutation<CommentQueryData, CommentQueryPayload>({
+            query: ({ data, postId }) => ({
+                url: `posts/${postId}/comments`,
+                method: 'POST',
+                data,
+            }),
+            invalidatesTags: ['Comments'],
         }),
     }),
 })
 
-export const { useGetCommentsQuery } = commmentsEndpoints
+export const { useGetCommentsQuery, useCreateCommentMutation } = commmentsEndpoints
