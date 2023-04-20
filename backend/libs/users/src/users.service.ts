@@ -5,10 +5,11 @@ import { Model } from 'mongoose'
 import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import * as bcrypt from 'bcrypt'
+import { PostForum } from '@app/models/posts/post.schema'
 
 @Injectable()
 export class UsersService {
-    constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+    constructor(@InjectModel(User.name) private userModel: Model<User>, @InjectModel(PostForum.name) private postModel: Model<PostForum>) {}
 
     async findAll(): Promise<User[]> {
         const existingUsers = this.userModel.find().exec()
@@ -19,7 +20,7 @@ export class UsersService {
     }
 
     async findOneById(id: string): Promise<User> {
-        const existingUser = await this.userModel.findById(id, { _id: 1, username: 1 }).exec()
+        const existingUser = await this.userModel.findById(id, { _id: 1, username: 1, createdDate: 1 }).exec()
         if (!existingUser) {
             throw new NotFoundException(`User with ID ${id} not found`)
         }
@@ -55,5 +56,13 @@ export class UsersService {
             throw new NotFoundException(`User with ID ${id} not found`)
         }
         return existingUser
+    }
+
+    async findPosts(id: string): Promise<PostForum[]> {
+        const existingPosts = await this.postModel.find({ author: id }).exec()
+        if (!existingPosts) {
+            throw new NotFoundException(`No posts or error finding posts for user with ID ${id}`)
+        }
+        return existingPosts
     }
 }

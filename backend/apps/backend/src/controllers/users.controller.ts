@@ -5,6 +5,7 @@ import { UpdateUserDto } from '@app/users/dto/update-user.dto'
 import { CreateUserDto } from '@app/users/dto/create-user.dto'
 import { UserParamDto } from '@app/users/dto/user-param.dto'
 import { Public } from '@app/auth/jwt-public'
+import { PostForum } from '@app/models/posts/post.schema'
 
 @Controller('users')
 export class UsersController {
@@ -31,5 +32,10 @@ export class UsersController {
     @Put(':id')
     putUser(@Body() updateUserDto: UpdateUserDto, @Param() params: UserParamDto, @Request() req): Promise<User> {
         return this.usersService.update(updateUserDto, params.id, req.user.userId)
+    }
+
+    @Get(':id/posts')
+    getUserPosts(@Param() params: UserParamDto): Promise<PostForum[]> {
+        return this.usersService.findPosts(params.id)
     }
 }
