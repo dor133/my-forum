@@ -16,7 +16,7 @@ export class CommentsService {
     ) {}
 
     async findAll(postId: string): Promise<Comment[]> {
-        const existingComments = this.commentModel.find({ postId: postId }).exec()
+        const existingComments = await this.commentModel.find({ postId: postId }).populate('author', { _id: 1, username: 1 }).exec()
         if (!existingComments) {
             throw new NotFoundException('No comments found')
         }
@@ -39,7 +39,7 @@ export class CommentsService {
         const createdComment = new this.commentModel(createCommentDto)
         const user = new this.userModel()
         user._id = new mongoose.Types.ObjectId(userId)
-        createdComment.authorId = user
+        createdComment.author = user
         const post = new this.postModel()
         post._id = new mongoose.Types.ObjectId(postId)
         createdComment.postId = post
@@ -47,7 +47,7 @@ export class CommentsService {
     }
 
     async delete(id: string, userId: string): Promise<Comment> {
-        const existingComment = await this.commentModel.findOneAndDelete({ _id: id, authorId: userId }, { projection: { _id: 1 } }).exec()
+        const existingComment = await this.commentModel.findOneAndDelete({ _id: id, author: userId }, { projection: { _id: 1 } }).exec()
         if (!existingComment) {
             throw new NotFoundException(`Comment with ID ${id} not found, or you don't have permission to delete it`)
         }
