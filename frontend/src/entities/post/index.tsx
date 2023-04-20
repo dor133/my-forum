@@ -3,16 +3,14 @@ import { useGetPostQuery } from '../../store/rtk/posts'
 import { Card } from '../../core/Card'
 import { Text } from '../../core/Text'
 import { Stack } from '../../core/Stack'
-import { useGetUserQuery } from '../../store/rtk/users'
 import { useGetCommentsQuery } from '../../store/rtk/comments'
 
 export function Post() {
     const { id } = useParams()
     const { data: post, isError: errorPost, isLoading: isPostLoading } = useGetPostQuery(id!)
-    const { data: author, isError: errorUser, isLoading: isUserLoading } = useGetUserQuery(post?.authorId!)
     const { data: comments, isError: errorComments, isLoading: isCommentsLoading } = useGetCommentsQuery(id!)
-    const errors = [errorPost, errorUser, errorComments]
-    const isLoading = [isPostLoading, isUserLoading, isCommentsLoading]
+    const errors = [errorPost, errorComments]
+    const isLoading = [isPostLoading, isCommentsLoading]
     const haveComments = comments ? comments.length > 0 : false
     const postDate = new Date(post?.createdDate!)
 
@@ -29,7 +27,7 @@ export function Post() {
                             <Text variant="title">{post?.title}</Text>
                             <Text variant="label">
                                 Post créé le <span className="italic">{postDate.toLocaleDateString()}</span> par{' '}
-                                <span className="italic">{author?.username}</span>
+                                <span className="italic">{post.author.username}</span>
                             </Text>
                         </Stack>
                     </Card>

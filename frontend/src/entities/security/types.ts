@@ -30,7 +30,7 @@ export type PostQueryData = {
     title: string
     text: string
     createdDate: Date
-    authorId: string
+    author: UserQueryData
 }
 
 export type UserQueryData = {

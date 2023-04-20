@@ -19,13 +19,4 @@ const postsEndpoints = rtkApi.injectEndpoints({
     }),
 })
 
-// export const useGetPostQuery = (id: string) => {
-//     console.log(id)
-//     const { data: post } = postsEndpoints.useGetPostQuery(id)
-//     if (!post) return { post, user: undefined }
-//     else return { post, user: useGetUserQuery(post.authorId) }
-//     // const { data: user } = useGetUserQuery(post!.authorId)
-//     // return { post, user }
-// }
-
 export const { useGetPostsQuery, useGetPostQuery } = postsEndpoints
