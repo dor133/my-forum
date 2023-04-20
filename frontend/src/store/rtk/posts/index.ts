@@ -1,6 +1,5 @@
 import { rtkApi } from '..'
-import { PostQueryData } from '../../../entities/security/types'
-import { useGetUserQuery } from '../users'
+import { PostQueryData, PostQueryPayload } from '../../../entities/security/types'
 
 const postsEndpoints = rtkApi.injectEndpoints({
     endpoints: (build) => ({
@@ -16,7 +15,14 @@ const postsEndpoints = rtkApi.injectEndpoints({
                 method: 'GET',
             }),
         }),
+        createPost: build.mutation<PostQueryData, PostQueryPayload>({
+            query: (data) => ({
+                url: 'posts',
+                method: 'POST',
+                data,
+            }),
+        }),
     }),
 })
 
-export const { useGetPostsQuery, useGetPostQuery } = postsEndpoints
+export const { useGetPostsQuery, useGetPostQuery, useCreatePostMutation } = postsEndpoints

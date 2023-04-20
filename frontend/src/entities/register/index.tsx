@@ -81,6 +81,7 @@ export function Register() {
                             type="text"
                             autoComplete="username"
                             label="Nom d'utilisateur"
+                            autoFocus={true}
                             placeholder="Entrez votre nom d'utilisateur"
                             onChange={formik.handleChange}
                             value={formik.values.username}

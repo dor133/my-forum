@@ -25,6 +25,11 @@ export type UserStoreType = {
     logOut: () => void
 }
 
+export type PostQueryPayload = {
+    title: string
+    text: string
+}
+
 export type PostQueryData = {
     _id: string
     title: string
