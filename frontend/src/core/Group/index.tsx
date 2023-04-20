@@ -27,7 +27,13 @@ const sizes: Record<Sizes, string> = {
 export function Group({ spacing = 2, justify, align, children, className, ...rest }: Props) {
     return (
         <div
-            className={cx('flex flex-row flex-wrap', sizes[spacing], justify ? justifyMap[justify] : undefined, align ? alignMap[align] : undefined, className)}
+            className={cx(
+                'flex flex-row flex-wrap items-center',
+                sizes[spacing],
+                justify ? justifyMap[justify] : undefined,
+                align ? alignMap[align] : undefined,
+                className
+            )}
             {...rest}
         >
             {children}
