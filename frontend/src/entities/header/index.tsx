@@ -15,20 +15,15 @@ export function Header() {
             <Group spacing={6} justify="between" className="items-center">
                 <Text variant="title">My forum</Text>
                 <Text variant="paragraph">
-                    {/* {!payload?.username ? (
+                    {!payload?.username ? (
                         <a href="/login">
                             <Button size="lg">Se connecter</Button>
                         </a>
                     ) : (
-                        <a href="/">
-                            <Button size="lg" onClick={handleClick}>
-                                Se déconnecter
-                            </Button>
-                        </a>
-                    )} */}
-                    <a href="/login">
-                        <Button size="lg">Se connecter</Button>
-                    </a>
+                        <Button size="lg" onClick={handleClick}>
+                            Se déconnecter
+                        </Button>
+                    )}
                 </Text>
             </Group>
 
