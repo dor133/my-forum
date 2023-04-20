@@ -2,19 +2,23 @@ import { Button } from '../../core/Button'
 import { Group } from '../../core/Group'
 import { Stack } from '../../core/Stack'
 import { Text } from '../../core/Text'
+import useAuthStore from '../../store/auth/auth.store'
 import { useGetPostsQuery } from '../../store/rtk/posts'
 
 export function AllPosts() {
     const { data } = useGetPostsQuery()
+    const { payload } = useAuthStore()
 
     return (
         <>
             <Stack>
                 <Group justify="between">
                     <Text variant="subtitle">Tous les posts</Text>
-                    <a href="/posts/new">
-                        <Button size="sm">Créér un post</Button>
-                    </a>
+                    {payload?.username && (
+                        <a href="/posts/new">
+                            <Button size="lg">Créér un post</Button>
+                        </a>
+                    )}
                 </Group>
                 <Text variant="paragraph">
                     <ul className="list-disc list-inside">
