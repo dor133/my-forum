@@ -1,12 +1,14 @@
 import { rtkApi } from '..'
 import { UserLoginQueryData, UserLoginQueryPayload } from '../../../entities/security/types'
 import useAuthStore from '../../auth/auth.store'
+import decode from 'jwt-decode'
+import { JWTPayload } from '../../../entities/security/types'
 
 const authEndpoints = rtkApi.injectEndpoints({
     endpoints: (build) => ({
         login: build.mutation<UserLoginQueryData, UserLoginQueryPayload>({
             query: (data) => ({
-                url: 'login',
+                url: '/auth/login',
                 method: 'POST',
                 data,
             }),
@@ -24,7 +26,14 @@ const authEndpoints = rtkApi.injectEndpoints({
                 await cacheEntryRemoved
             },
         }),
+        register: build.mutation<UserLoginQueryData, UserLoginQueryPayload>({
+            query: (data) => ({
+                url: '/users',
+                method: 'POST',
+                data,
+            }),
+        }),
     }),
 })
 
-export const { useLoginMutation } = authEndpoints
+export const { useLoginMutation, useRegisterMutation } = authEndpoints

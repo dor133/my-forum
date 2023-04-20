@@ -25,7 +25,7 @@ export class PostsService {
     }
 
     async findOneById(id: string): Promise<PostForum> {
-        const existingPost = await this.postModel.findById(id, { _id: 1 }).exec()
+        const existingPost = await this.postModel.findById(id).exec()
         if (!existingPost) {
             throw new NotFoundException(`Post with ID ${id} not found`)
         }

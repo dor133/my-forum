@@ -12,7 +12,7 @@ export class Comment {
     text: string
 
     @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-    authorId: User
+    author: User
 
     @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'PostForum' })
     postId: PostForum

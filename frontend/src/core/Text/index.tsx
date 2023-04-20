@@ -1,3 +1,5 @@
+import cx from 'classnames'
+
 type Variant = 'title' | 'subtitle' | 'paragraph' | 'label'
 
 type Props = {
@@ -26,7 +28,7 @@ const styles: Record<Variant, string> = {
     label: 'text-sm font-medium leading-6 text-gray-900',
 }
 
-export function Text({ variant = 'paragraph', children }: Props) {
+export function Text({ variant = 'paragraph', className, children }: Props) {
     const As = getTag(variant)
-    return <As className={styles[variant]}>{children}</As>
+    return <As className={cx(styles[variant], className)}>{children}</As>
 }
