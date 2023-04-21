@@ -11,6 +11,7 @@ export function Profile() {
     const { data: posts } = useGetUserPostsQuery(payload!.sub)
     const { data: nbComments } = useGetUserNbCommentsQuery(payload!.sub)
     const userDate = new Date(user?.createdDate!)
+    const havePosts = posts ? posts?.length > 0 : false
 
     return (
         <Card>
@@ -36,15 +37,19 @@ export function Profile() {
 
                 <div className="border-t border-gray-200 py-1.5">
                     <Text variant="subtitle">Mes posts</Text>
-                    <ul className="list-disc list-inside">
-                        {posts?.map((post) => (
-                            <li key={post._id}>
-                                <a href={`/posts/${post._id}`} className="text-base leading-7 text-gray-700">
-                                    {post.title}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
+                    {havePosts ? (
+                        <ul className="list-disc list-inside">
+                            {posts?.map((post) => (
+                                <li key={post._id}>
+                                    <a href={`/posts/${post._id}`} className="text-base leading-7 text-gray-700">
+                                        {post.title}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <Text variant="label">Vous n'avez pas encore posté</Text>
+                    )}
                 </div>
             </Stack>
         </Card>
