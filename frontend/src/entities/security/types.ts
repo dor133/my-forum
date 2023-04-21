@@ -26,8 +26,13 @@ export type UserStoreType = {
 }
 
 export type PostQueryPayload = {
-    title: string
-    text: string
+    title: string | undefined
+    text: string | undefined
+}
+
+export type PostModifyQueryPayload = {
+    id: string | undefined
+    data: PostQueryPayload
 }
 
 export type PostDeleteQueryPayload = {

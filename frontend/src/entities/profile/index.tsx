@@ -77,17 +77,22 @@ export function Profile() {
                         {havePosts ? (
                             posts?.map((post) => (
                                 <div className="flex items-center mb-1.5" key={post._id}>
-                                    <input
-                                        type="checkbox"
-                                        name="checkbox"
-                                        id={post._id}
-                                        value={post._id}
-                                        className="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-600"
-                                        onChange={formik.handleChange}
-                                    />
-                                    <label htmlFor={post._id} className="text-base leading-7 text-gray-700 ml-2">
-                                        <a href={`/posts/${post._id}`}>{post.title}</a>
-                                    </label>
+                                    <Group>
+                                        <input
+                                            type="checkbox"
+                                            name="checkbox"
+                                            id={post._id}
+                                            value={post._id}
+                                            className="h-4 w-4 rounded border-gray-300 text-red-600 focus:ring-red-600"
+                                            onChange={formik.handleChange}
+                                        />
+                                        <label htmlFor={post._id} className="text-base leading-7 text-gray-700 ml-2">
+                                            <a href={`/posts/${post._id}`}>{post.title}</a>
+                                        </label>
+                                        <Button size="xs">
+                                            <a href={`/posts/${post._id}/modify`}>Modifier</a>
+                                        </Button>
+                                    </Group>
                                 </div>
                             ))
                         ) : (

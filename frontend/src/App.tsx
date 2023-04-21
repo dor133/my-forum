@@ -7,6 +7,7 @@ import { Register } from './entities/register'
 import { NewPost } from './entities/newPost'
 import { Profile } from './entities/profile'
 import { ProtectedRoute } from './entities/security/protectedRoute'
+import { ModifyPost } from './entities/modifyPost'
 
 function App() {
     return (
@@ -29,6 +30,14 @@ function App() {
                 element={
                     <ProtectedRoute>
                         <Profile />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/posts/:id/modify"
+                element={
+                    <ProtectedRoute>
+                        <ModifyPost />
                     </ProtectedRoute>
                 }
             />
