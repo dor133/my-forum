@@ -47,13 +47,13 @@ export class PostsService {
         return existingPost
     }
 
-    async delete(id: string, userId: string): Promise<string> {
-        const existingPost = await this.postModel.findOneAndDelete({ _id: id, author: userId }, { projection: { _id: 1 } }).exec()
-        if (!existingPost) {
-            throw new NotFoundException(`Post with ID ${id} not found, or you don't have permission to delete it`)
+    async delete(ids: string[], userId: string): Promise<string> {
+        const existingPosts = await this.postModel.find({ _id: { $in: ids }, author: userId }, { _id: 1 }).exec()
+        if (!existingPosts || existingPosts.length == 0) {
+            throw new NotFoundException(`Posts not found, or you don't have permission to delete it/them`)
         }
-        // const existingCommentsIds = await this.commentModel.find({ postId: id }, { _id: 1 }).exec()
-        await this.commentModel.deleteMany({ postId: id }).exec()
-        return 'Post deleted'
+        await this.postModel.deleteMany({ _id: { $in: ids }, author: userId }).exec()
+        await this.commentModel.deleteMany({ postId: { $in: ids } }).exec()
+        return 'Post(s) deleted'
     }
 }

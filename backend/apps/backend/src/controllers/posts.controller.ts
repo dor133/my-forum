@@ -5,6 +5,7 @@ import { PostParamDto } from '../services/dto/post-param.dto'
 import { CreatePostDto } from '../services/dto/create-post.dto'
 import { Public } from '@app/auth/jwt-public'
 import { UpdatePostDto } from '../services/dto/update-post.dto'
+import { DeletePostDto } from '../services/dto/delete-post.dto'
 
 @Controller('posts')
 export class PostsController {
@@ -32,8 +33,8 @@ export class PostsController {
         return this.postsService.update(updatePostDto, params.id, req.user.userId)
     }
 
-    @Delete(':id')
-    deletePost(@Param() params: PostParamDto, @Request() req): Promise<string> {
-        return this.postsService.delete(params.id, req.user.userId)
+    @Delete()
+    deletePost(@Request() req, @Body() deletePostDto: DeletePostDto): Promise<string> {
+        return this.postsService.delete(deletePostDto.ids, req.user.userId)
     }
 }
