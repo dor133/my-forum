@@ -60,3 +60,8 @@ export type CommentQueryPayload = {
     postId: string | undefined
     data: { text: string }
 }
+
+export type CommentDeleteQueryPayload = {
+    postId: string | undefined
+    id: string
+}
