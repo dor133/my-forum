@@ -33,7 +33,7 @@ export class PostsController {
     }
 
     @Delete(':id')
-    deletePost(@Param() params: PostParamDto, @Request() req): Promise<PostForum> {
+    deletePost(@Param() params: PostParamDto, @Request() req): Promise<string> {
         return this.postsService.delete(params.id, req.user.userId)
     }
 }
