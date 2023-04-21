@@ -25,11 +25,13 @@ const postsEndpoints = rtkApi.injectEndpoints({
             }),
         }),
 
-        deletePost: build.mutation<string, PostDeleteQueryPayload[]>({
-            query: (id) => ({
-                url: `posts/${id}`,
+        deletePost: build.mutation<string, PostDeleteQueryPayload>({
+            query: (ids) => ({
+                url: 'posts',
                 method: 'DELETE',
+                data: ids,
             }),
+            invalidatesTags: ['UserPosts'],
         }),
     }),
 })

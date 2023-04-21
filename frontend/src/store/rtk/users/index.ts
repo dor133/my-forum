@@ -22,6 +22,7 @@ const usersEndpoints = rtkApi.injectEndpoints({
                 url: `users/${id}/posts`,
                 method: 'GET',
             }),
+            providesTags: ['UserPosts'],
         }),
 
         getUserNbComments: build.query<number, string>({

@@ -27,14 +27,13 @@ export function Profile() {
         initialValues: { checkbox: [] },
         validationSchema: checkSchema,
         onSubmit: (values) => {
-            deletePost(values.checkbox)
-            console.log(values.checkbox)
+            const query = { ids: values.checkbox }
+            deletePost(query)
+            console.log(query)
         },
         validateOnBlur: false,
         validateOnChange: false,
     })
-
-    // console.log(formik.values)
 
     return (
         <Card>

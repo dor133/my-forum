@@ -31,7 +31,7 @@ export type PostQueryPayload = {
 }
 
 export type PostDeleteQueryPayload = {
-    _id: string
+    ids: string[]
 }
 
 export type PostQueryData = {
