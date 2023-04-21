@@ -6,10 +6,15 @@ import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import * as bcrypt from 'bcrypt'
 import { PostForum } from '@app/models/posts/post.schema'
+import { Comment } from '@app/models/comments/comment.schema'
 
 @Injectable()
 export class UsersService {
-    constructor(@InjectModel(User.name) private userModel: Model<User>, @InjectModel(PostForum.name) private postModel: Model<PostForum>) {}
+    constructor(
+        @InjectModel(User.name) private userModel: Model<User>,
+        @InjectModel(PostForum.name) private postModel: Model<PostForum>,
+        @InjectModel(Comment.name) private commentModel: Model<Comment>
+    ) {}
 
     async findAll(): Promise<User[]> {
         const existingUsers = this.userModel.find().exec()
@@ -64,5 +69,13 @@ export class UsersService {
             throw new NotFoundException(`No posts or error finding posts for user with ID ${id}`)
         }
         return existingPosts
+    }
+
+    async findComments(id: string): Promise<number> {
+        const existingComments = await this.commentModel.find({ author: id }, { _id: 1 }).exec()
+        if (!existingComments) {
+            throw new NotFoundException(`No comments or error finding comments for user with ID ${id}`)
+        }
+        return existingComments.length
     }
 }
