@@ -23,7 +23,14 @@ const usersEndpoints = rtkApi.injectEndpoints({
                 method: 'GET',
             }),
         }),
+
+        getUserNbComments: build.query<number, string>({
+            query: (id) => ({
+                url: `users/${id}/comments`,
+                method: 'GET',
+            }),
+        }),
     }),
 })
 
-export const { useGetUsersQuery, useGetUserQuery, useGetUserPostsQuery } = usersEndpoints
+export const { useGetUsersQuery, useGetUserQuery, useGetUserPostsQuery, useGetUserNbCommentsQuery } = usersEndpoints
