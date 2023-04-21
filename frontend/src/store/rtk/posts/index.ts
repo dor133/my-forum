@@ -9,12 +9,14 @@ const postsEndpoints = rtkApi.injectEndpoints({
                 method: 'GET',
             }),
         }),
+
         getPost: build.query<PostQueryData, string>({
             query: (id) => ({
                 url: `posts/${id}`,
                 method: 'GET',
             }),
         }),
+
         createPost: build.mutation<PostQueryData, PostQueryPayload>({
             query: (data) => ({
                 url: 'posts',
@@ -22,7 +24,14 @@ const postsEndpoints = rtkApi.injectEndpoints({
                 data,
             }),
         }),
+
+        deletePost: build.query<PostQueryData, string>({
+            query: (id) => ({
+                url: `posts/${id}`,
+                method: 'DELETE',
+            }),
+        }),
     }),
 })
 
-export const { useGetPostsQuery, useGetPostQuery, useCreatePostMutation } = postsEndpoints
+export const { useGetPostsQuery, useGetPostQuery, useCreatePostMutation, useDeletePostQuery } = postsEndpoints
