@@ -14,7 +14,7 @@ export function AllPosts() {
             <Stack>
                 <Group justify="between">
                     <Text variant="subtitle">Tous les posts</Text>
-                    {payload?.username && (
+                    {payload && (
                         <a href="/posts/new">
                             <Button size="lg">Créér un post</Button>
                         </a>

@@ -43,10 +43,10 @@ export function NewComment() {
             />
 
             <Group>
-                <Button size="lg" type="submit" active={payload?.username ? true : false}>
+                <Button size="lg" type="submit" active={payload ? true : false}>
                     Envoyer
                 </Button>
-                {!payload?.username && (
+                {!payload && (
                     <Text variant="label" className="italic text-red-400">
                         Vous devez être connecté
                     </Text>
