@@ -39,7 +39,10 @@ export function Post() {
                     </Card>
 
                     <Card id="content">
-                        <Text variant="paragraph">{post.text}</Text>
+                        {/* .replace(/(?:\r\n|\r|\n)/g, '<br />') */}
+                        <Text variant="paragraph" className="whitespace-pre-line">
+                            {post.text}
+                        </Text>
                     </Card>
 
                     <Card id="comments">
@@ -74,7 +77,9 @@ export function Post() {
                                                 </Button>
                                             ) : null}
                                         </Group>
-                                        <Text variant="paragraph">{comment.text}</Text>
+                                        <Text variant="paragraph" className="whitespace-pre-line">
+                                            {comment.text}
+                                        </Text>
                                     </div>
                                 ))
                             ) : (
