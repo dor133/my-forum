@@ -6,7 +6,7 @@ import { Text } from '../../core/Text'
 import { Button } from '../../core/Button'
 import useAuthStore from '../../store/auth/auth.store'
 import { useGetUserQuery, useGetUserPostsQuery, useGetUserNbCommentsQuery } from '../../store/rtk/users'
-import { useDeletePostQuery } from '../../store/rtk/posts'
+import { useDeletePostMutation } from '../../store/rtk/posts'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
@@ -16,7 +16,7 @@ const checkSchema = Yup.object().shape({
 
 export function Profile() {
     const { payload } = useAuthStore()
-    // const {data: post } = useDeletePostQuery()
+    const [deletePost] = useDeletePostMutation()
     const { data: user } = useGetUserQuery(payload!.sub)
     const { data: posts } = useGetUserPostsQuery(payload!.sub)
     const { data: nbComments } = useGetUserNbCommentsQuery(payload!.sub)
@@ -26,10 +26,15 @@ export function Profile() {
     const formik = useFormik({
         initialValues: { checkbox: [] },
         validationSchema: checkSchema,
-        onSubmit: (values) => {},
+        onSubmit: (values) => {
+            deletePost(values.checkbox)
+            console.log(values.checkbox)
+        },
+        validateOnBlur: false,
+        validateOnChange: false,
     })
 
-    console.log(formik.values)
+    // console.log(formik.values)
 
     return (
         <Card>
@@ -63,6 +68,12 @@ export function Profile() {
                                 Supprimer
                             </Button>
                         </Group>
+
+                        {formik.errors.checkbox && (
+                            <Text variant="paragraph" className="text-red-900">
+                                {formik.errors.checkbox}
+                            </Text>
+                        )}
 
                         {havePosts ? (
                             posts?.map((post) => (

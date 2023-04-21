@@ -1,5 +1,5 @@
 import { rtkApi } from '..'
-import { PostQueryData, PostQueryPayload } from '../../../entities/security/types'
+import { PostDeleteQueryPayload, PostQueryData, PostQueryPayload } from '../../../entities/security/types'
 
 const postsEndpoints = rtkApi.injectEndpoints({
     endpoints: (build) => ({
@@ -25,7 +25,7 @@ const postsEndpoints = rtkApi.injectEndpoints({
             }),
         }),
 
-        deletePost: build.query<PostQueryData, string>({
+        deletePost: build.mutation<string, PostDeleteQueryPayload[]>({
             query: (id) => ({
                 url: `posts/${id}`,
                 method: 'DELETE',
@@ -34,4 +34,4 @@ const postsEndpoints = rtkApi.injectEndpoints({
     }),
 })
 
-export const { useGetPostsQuery, useGetPostQuery, useCreatePostMutation, useDeletePostQuery } = postsEndpoints
+export const { useGetPostsQuery, useGetPostQuery, useCreatePostMutation, useDeletePostMutation } = postsEndpoints

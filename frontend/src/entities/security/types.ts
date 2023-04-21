@@ -30,6 +30,10 @@ export type PostQueryPayload = {
     text: string
 }
 
+export type PostDeleteQueryPayload = {
+    _id: string
+}
+
 export type PostQueryData = {
     _id: string
     title: string
