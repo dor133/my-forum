@@ -10,7 +10,6 @@ import { ExclamationCircleIcon } from '@heroicons/react/20/solid'
 import { Group } from '../../core/Group'
 import * as Yup from 'yup'
 import { Link, useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
 
 const registerSchema = Yup.object().shape({
     username: Yup.string()
@@ -35,17 +34,15 @@ export function Register() {
         },
         validationSchema: registerSchema,
         onSubmit: (values) => {
-            register(values)
+            register(values).then((res) => {
+                if (!('error' in res)) {
+                    navigate('/login')
+                }
+            })
         },
         validateOnBlur: false,
         validateOnChange: false,
     })
-
-    useEffect(() => {
-        if (isSuccess) {
-            navigate('/login')
-        }
-    }, [isSuccess, isError])
 
     return (
         <Card>

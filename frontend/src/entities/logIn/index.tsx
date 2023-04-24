@@ -10,7 +10,6 @@ import { ExclamationCircleIcon } from '@heroicons/react/20/solid'
 import { Group } from '../../core/Group'
 import * as Yup from 'yup'
 import { Link, useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
 
 const loginSchema = Yup.object().shape({
     username: Yup.string()
@@ -33,19 +32,15 @@ export function LogIn() {
         },
         validationSchema: loginSchema,
         onSubmit: (values) => {
-            login(values)
-            // .then(() => console.log(isSuccess, isError))
-            // .catch(() => console.log(isError))
+            login(values).then((res) => {
+                if (!('error' in res)) {
+                    navigate('/')
+                }
+            })
         },
         validateOnBlur: false,
         validateOnChange: false,
     })
-
-    useEffect(() => {
-        if (isSuccess) {
-            navigate('/')
-        }
-    }, [isSuccess, isError])
 
     return (
         <Card>
