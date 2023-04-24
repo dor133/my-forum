@@ -1,5 +1,5 @@
 import { PostForumDocument, PostForum } from '@app/models/posts/post.schema'
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { CreatePostDto } from './dto/create-post.dto'
@@ -16,7 +16,7 @@ export class PostsService {
     ) {}
 
     async findAll(): Promise<PostForum[]> {
-        const existingPosts = this.postModel.find().exec()
+        const existingPosts = await this.postModel.find({}, { _id: 1, title: 1 }).exec()
         if (!existingPosts) {
             throw new NotFoundException('No posts found')
         }
@@ -55,5 +55,23 @@ export class PostsService {
         await this.postModel.deleteMany({ _id: { $in: ids }, author: userId }).exec()
         await this.commentModel.deleteMany({ postId: { $in: ids } }).exec()
         return 'Post(s) deleted'
+    }
+
+    async addLike(id: string, userId: string): Promise<PostForum> {
+        const alreadyLiked = await this.userModel.findOne({ _id: userId, postsLiked: id }, { _id: 1 }).exec()
+        if (alreadyLiked) {
+            throw new ConflictException(`You already liked this post`)
+        }
+        const existingUser = await this.userModel
+            .findOneAndUpdate({ _id: userId }, { $addToSet: { postsLiked: id } }, { new: true, projection: { _id: 1 } })
+            .exec()
+        if (!existingUser) {
+            throw new NotFoundException(`User with ID ${userId} not found, or you don't have permission`)
+        }
+        const existingPost = await this.postModel.findOneAndUpdate({ _id: id }, { $inc: { likes: 1 } }, { new: true, projection: { _id: 1 } }).exec()
+        if (!existingPost) {
+            throw new NotFoundException(`Post with ID ${id} not found, or you don't have permission to edit it`)
+        }
+        return existingPost
     }
 }

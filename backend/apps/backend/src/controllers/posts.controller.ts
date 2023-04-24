@@ -37,4 +37,9 @@ export class PostsController {
     deletePost(@Request() req, @Body() deletePostDto: DeletePostDto): Promise<string> {
         return this.postsService.delete(deletePostDto.ids, req.user.userId)
     }
+
+    @Post(':id/likes')
+    addLike(@Request() req, @Param() params: PostParamDto): Promise<PostForum> {
+        return this.postsService.addLike(params.id, req.user.userId)
+    }
 }

@@ -18,6 +18,9 @@ export class PostForum {
 
     @Prop({ required: true, default: () => new Date() })
     createdDate: Date
+
+    @Prop()
+    likes: number
 }
 
 export const PostForumSchema = SchemaFactory.createForClass(PostForum)
