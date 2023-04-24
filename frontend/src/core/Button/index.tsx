@@ -22,7 +22,7 @@ export function Button({ size = 'md', color = 'green', children, className, acti
         <button
             type="button"
             className={cx(
-                color == 'red'
+                color === 'red'
                     ? active
                         ? 'rounded bg-red-600 font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600'
                         : 'rounded bg-gray-400 font-semibold text-gray-700 shadow-sm'

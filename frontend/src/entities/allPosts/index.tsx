@@ -26,7 +26,6 @@ export function AllPosts() {
     const filteredPosts = useMemo(
         () =>
             data?.filter((post) => {
-                console.log('filtering users')
                 return post.title
                     .toLowerCase()
                     .normalize('NFD')
@@ -38,7 +37,7 @@ export function AllPosts() {
                             .replace(/\p{Diacritic}/gu, '')
                     )
             }),
-        [searchTerm]
+        [searchTerm, data]
     )
 
     return (

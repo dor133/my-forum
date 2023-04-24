@@ -24,7 +24,7 @@ const registerSchema = Yup.object().shape({
 export function Register() {
     const navigate = useNavigate()
 
-    const [register, { error, isSuccess, isError }] = useRegisterMutation()
+    const [register, { error }] = useRegisterMutation()
 
     const formik = useFormik({
         initialValues: {

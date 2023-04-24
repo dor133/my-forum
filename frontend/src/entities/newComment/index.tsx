@@ -15,7 +15,7 @@ const commentSchema = Yup.object().shape({
 export function NewComment() {
     const { id } = useParams<{ id: string }>()
     const { payload } = useAuthStore()
-    const [createComment, { error, isSuccess, isError }] = useCreateCommentMutation()
+    const [createComment] = useCreateCommentMutation()
 
     const formik = useFormik({
         initialValues: {

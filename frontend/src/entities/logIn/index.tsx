@@ -23,7 +23,7 @@ const loginSchema = Yup.object().shape({
 export function LogIn() {
     const navigate = useNavigate()
 
-    const [login, { error, isSuccess, isError }] = useLoginMutation()
+    const [login, { error }] = useLoginMutation()
 
     const formik = useFormik({
         initialValues: {

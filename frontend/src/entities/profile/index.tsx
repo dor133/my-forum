@@ -30,7 +30,6 @@ export function Profile() {
         onSubmit: (values) => {
             const query = { ids: values.checkbox }
             deletePost(query)
-            console.log(query)
         },
         validateOnBlur: false,
         validateOnChange: false,

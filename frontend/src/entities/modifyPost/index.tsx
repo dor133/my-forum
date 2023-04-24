@@ -20,7 +20,7 @@ const postSchema = Yup.object().shape({
 export function ModifyPost() {
     const { id } = useParams()
     const navigate = useNavigate()
-    const { data: post, isError: errorPost, isLoading: isPostLoading } = useGetPostQuery(id!)
+    const { data: post } = useGetPostQuery(id!)
 
     const [modifyPost, { error }] = useModifyPostMutation()
 

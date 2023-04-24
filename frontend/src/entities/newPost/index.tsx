@@ -8,7 +8,6 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { useNavigate } from 'react-router-dom'
 import { useCreatePostMutation } from '../../store/rtk/posts'
-import { useEffect } from 'react'
 import { Group } from '../../core/Group'
 import { ExclamationCircleIcon } from '@heroicons/react/20/solid'
 import { TextArea } from '../../core/TextArea'
@@ -21,7 +20,7 @@ const postSchema = Yup.object().shape({
 export function NewPost() {
     const navigate = useNavigate()
 
-    const [createPost, { error, isSuccess, isError }] = useCreatePostMutation()
+    const [createPost, { error }] = useCreatePostMutation()
 
     const formik = useFormik({
         initialValues: {

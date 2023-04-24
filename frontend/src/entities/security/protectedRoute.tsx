@@ -1,6 +1,5 @@
 import { Navigate, useLocation } from 'react-router-dom'
 import useAuthStore from '../../store/auth/auth.store'
-import { ReactNode } from 'react'
 
 type Props = {
     children: JSX.Element
