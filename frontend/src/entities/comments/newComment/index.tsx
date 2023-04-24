@@ -1,12 +1,12 @@
-import { TextArea } from '../../core/TextArea'
-import { Button } from '../../core/Button'
+import { TextArea } from '../../../core/TextArea'
+import { Button } from '../../../core/Button'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { useCreateCommentMutation } from '../../store/rtk/comments'
+import { useCreateCommentMutation } from '../../../store/rtk/comments'
 import { useParams } from 'react-router-dom'
-import useAuthStore from '../../store/auth/auth.store'
-import { Group } from '../../core/Group'
-import { Text } from '../../core/Text'
+import useAuthStore from '../../../store/auth/auth.store'
+import { Group } from '../../../core/Group'
+import { Text } from '../../../core/Text'
 
 const commentSchema = Yup.object().shape({
     text: Yup.string().required('Texte requis'),

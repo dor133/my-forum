@@ -1,5 +1,5 @@
 import { Card } from '../../core/Card'
-import { AllPosts } from '../allPosts'
+import { AllPosts } from '../posts/allPosts'
 import { Header } from '../header'
 
 export function Home() {

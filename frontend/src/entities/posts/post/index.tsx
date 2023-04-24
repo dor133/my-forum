@@ -1,13 +1,13 @@
 import { useParams } from 'react-router-dom'
-import { useGetPostQuery } from '../../store/rtk/posts'
-import { Card } from '../../core/Card'
-import { Text } from '../../core/Text'
-import { Stack } from '../../core/Stack'
-import { useGetCommentsQuery, useDeleteCommentMutation } from '../../store/rtk/comments'
-import { NewComment } from '../newComment'
-import useAuthStore from '../../store/auth/auth.store'
-import { Button } from '../../core/Button'
-import { Group } from '../../core/Group'
+import { useGetPostQuery } from '../../../store/rtk/posts'
+import { Card } from '../../../core/Card'
+import { Text } from '../../../core/Text'
+import { Stack } from '../../../core/Stack'
+import { useGetCommentsQuery, useDeleteCommentMutation } from '../../../store/rtk/comments'
+import { NewComment } from '../../comments/newComment'
+import useAuthStore from '../../../store/auth/auth.store'
+import { Button } from '../../../core/Button'
+import { Group } from '../../../core/Group'
 
 export function Post() {
     const { id } = useParams()

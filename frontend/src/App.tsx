@@ -1,13 +1,13 @@
 import { Route, Routes } from 'react-router-dom'
 import { Tuto } from './entities/tuto'
 import { Home } from './entities/home'
-import { Post } from './entities/post'
-import { LogIn } from './entities/logIn'
-import { Register } from './entities/register'
-import { NewPost } from './entities/newPost'
-import { Profile } from './entities/profile'
+import { Post } from './entities/posts/post'
+import { LogIn } from './entities/users/logIn'
+import { Register } from './entities/users/register'
+import { NewPost } from './entities/posts/newPost'
+import { Profile } from './entities/users/profile'
 import { ProtectedRoute } from './entities/security/protectedRoute'
-import { ModifyPost } from './entities/modifyPost'
+import { ModifyPost } from './entities/posts/modifyPost'
 
 function App() {
     return (
