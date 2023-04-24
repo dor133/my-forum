@@ -8,40 +8,44 @@ import { NewPost } from './entities/posts/newPost'
 import { Profile } from './entities/users/profile'
 import { ProtectedRoute } from './entities/security/protectedRoute'
 import { ModifyPost } from './entities/posts/modifyPost'
+import { Header } from './entities/header'
 
 function App() {
     return (
-        <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/tuto" element={<Tuto />} />
-            <Route path="/posts/:id" element={<Post />} />
-            <Route
-                path="/posts/new"
-                element={
-                    <ProtectedRoute>
-                        <NewPost />
-                    </ProtectedRoute>
-                }
-            />
-            <Route path="/login" element={<LogIn />} />
-            <Route path="/register" element={<Register />} />
-            <Route
-                path="/profile"
-                element={
-                    <ProtectedRoute>
-                        <Profile />
-                    </ProtectedRoute>
-                }
-            />
-            <Route
-                path="/posts/:id/modify"
-                element={
-                    <ProtectedRoute>
-                        <ModifyPost />
-                    </ProtectedRoute>
-                }
-            />
-        </Routes>
+        <>
+            <Header />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/tuto" element={<Tuto />} />
+                <Route path="/posts/:id" element={<Post />} />
+                <Route
+                    path="/posts/new"
+                    element={
+                        <ProtectedRoute>
+                            <NewPost />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route path="/login" element={<LogIn />} />
+                <Route path="/register" element={<Register />} />
+                <Route
+                    path="/profile"
+                    element={
+                        <ProtectedRoute>
+                            <Profile />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/posts/:id/modify"
+                    element={
+                        <ProtectedRoute>
+                            <ModifyPost />
+                        </ProtectedRoute>
+                    }
+                />
+            </Routes>
+        </>
     )
 }
 
