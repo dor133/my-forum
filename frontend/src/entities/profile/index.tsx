@@ -9,6 +9,7 @@ import { useGetUserQuery, useGetUserPostsQuery, useGetUserNbCommentsQuery } from
 import { useDeletePostMutation } from '../../store/rtk/posts'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { Link } from 'react-router-dom'
 
 const checkSchema = Yup.object().shape({
     checkbox: Yup.array().min(1, 'Vous devez sélectionner au moins un post'),
@@ -87,10 +88,10 @@ export function Profile() {
                                             onChange={formik.handleChange}
                                         />
                                         <label htmlFor={post._id} className="text-base leading-7 text-gray-700 ml-2">
-                                            <a href={`/posts/${post._id}`}>{post.title}</a>
+                                            <Link to={`/posts/${post._id}`}>{post.title}</Link>
                                         </label>
                                         <Button size="xs">
-                                            <a href={`/posts/${post._id}/modify`}>Modifier</a>
+                                            <Link to={`/posts/${post._id}/modify`}>Modifier</Link>
                                         </Button>
                                     </Group>
                                 </div>

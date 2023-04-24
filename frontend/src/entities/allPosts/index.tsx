@@ -7,6 +7,7 @@ import { useGetPostsQuery } from '../../store/rtk/posts'
 import { Center } from '../../core/Center'
 import { Input } from '../../core/Input'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 export function AllPosts() {
     const { data } = useGetPostsQuery()
@@ -24,9 +25,9 @@ export function AllPosts() {
                 <Group justify="between">
                     <Text variant="subtitle">Tous les posts</Text>
                     {payload && (
-                        <a href="/posts/new">
+                        <Link to="/posts/new">
                             <Button size="lg">Créér un post</Button>
-                        </a>
+                        </Link>
                     )}
                 </Group>
 
@@ -51,7 +52,7 @@ export function AllPosts() {
                             )
                             .map((post) => (
                                 <li key={post._id}>
-                                    <a href={`/posts/${post._id}`}>{post.title}</a>
+                                    <Link to={`/posts/${post._id}`}>{post.title}</Link>
                                 </li>
                             ))}
                     </ul>

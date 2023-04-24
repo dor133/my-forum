@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { Button } from '../../core/Button'
 import { Group } from '../../core/Group'
 import { Stack } from '../../core/Stack'
@@ -17,14 +18,14 @@ export function Header() {
                 <Text variant="title">My forum</Text>
                 <Text variant="paragraph">
                     {!payload ? (
-                        <a href="/login">
+                        <Link to="/login">
                             <Button size="lg">Se connecter</Button>
-                        </a>
+                        </Link>
                     ) : (
                         <Stack>
-                            <a href="/profile">
+                            <Link to="/profile">
                                 <Button size="lg">Mon profil</Button>
-                            </a>
+                            </Link>
                             <Button size="lg" onClick={handleClick}>
                                 Se déconnecter
                             </Button>

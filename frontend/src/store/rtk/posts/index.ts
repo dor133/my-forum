@@ -8,6 +8,7 @@ const postsEndpoints = rtkApi.injectEndpoints({
                 url: 'posts',
                 method: 'GET',
             }),
+            providesTags: ['AllPosts'],
         }),
 
         getPost: build.query<PostQueryData, string>({
@@ -24,6 +25,7 @@ const postsEndpoints = rtkApi.injectEndpoints({
                 method: 'POST',
                 data,
             }),
+            invalidatesTags: ['UserPosts', 'AllPosts'],
         }),
 
         deletePost: build.mutation<string, PostDeleteQueryPayload>({
@@ -32,7 +34,7 @@ const postsEndpoints = rtkApi.injectEndpoints({
                 method: 'DELETE',
                 data: ids,
             }),
-            invalidatesTags: ['UserPosts'],
+            invalidatesTags: ['UserPosts', 'AllPosts'],
         }),
 
         modifyPost: build.mutation<PostQueryData, PostModifyQueryPayload>({
@@ -41,7 +43,7 @@ const postsEndpoints = rtkApi.injectEndpoints({
                 method: 'PUT',
                 data,
             }),
-            invalidatesTags: ['UserPosts', 'Post'],
+            invalidatesTags: ['UserPosts', 'Post', 'AllPosts'],
         }),
     }),
 })

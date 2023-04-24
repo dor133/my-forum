@@ -6,11 +6,11 @@ export function Home() {
     return (
         <div className="space-y-4">
             <Card>
-                <Header></Header>
+                <Header />
             </Card>
 
             <Card>
-                <AllPosts></AllPosts>
+                <AllPosts />
             </Card>
         </div>
     )

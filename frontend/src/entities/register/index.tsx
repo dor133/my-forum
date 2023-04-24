@@ -9,7 +9,7 @@ import { useFormik } from 'formik'
 import { ExclamationCircleIcon } from '@heroicons/react/20/solid'
 import { Group } from '../../core/Group'
 import * as Yup from 'yup'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 
 const registerSchema = Yup.object().shape({
@@ -57,7 +57,7 @@ export function Register() {
 
                     <Center>
                         <Text variant="label">
-                            <a href="/login">Déjà un compte ? Se connecter</a>
+                            <Link to="/login">Déjà un compte ? Se connecter</Link>
                         </Text>
                     </Center>
                 </Stack>
