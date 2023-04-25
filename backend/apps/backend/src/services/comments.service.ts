@@ -1,5 +1,5 @@
 import { CommentDocument, Comment } from '@app/models/comments/comment.schema'
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { CreateCommentDto } from './dto/create-comment.dto'
@@ -50,6 +50,46 @@ export class CommentsService {
         const existingComment = await this.commentModel.findOneAndDelete({ _id: id, author: userId }, { projection: { _id: 1 } }).exec()
         if (!existingComment) {
             throw new NotFoundException(`Comment with ID ${id} not found, or you don't have permission to delete it`)
+        }
+        return existingComment
+    }
+
+    async addLike(id: string, postId: string, userId: string): Promise<Comment> {
+        const alreadyLiked = await this.userModel.findOne({ _id: userId, commentsLiked: id }, { _id: 1 }).exec()
+        if (alreadyLiked) {
+            throw new ConflictException(`You already liked this comment`)
+        }
+        const existingUser = await this.userModel
+            .findOneAndUpdate({ _id: userId }, { $push: { commentsLiked: id } }, { new: true, projection: { _id: 1 } })
+            .exec()
+        if (!existingUser) {
+            throw new NotFoundException(`User with ID ${userId} not found, or you don't have permission`)
+        }
+        const existingComment = await this.commentModel
+            .findOneAndUpdate({ _id: id, postId: postId }, { $inc: { likes: 1 } }, { new: true, projection: { _id: 1 } })
+            .exec()
+        if (!existingComment) {
+            throw new NotFoundException(`Comment with ID ${id} not found, or you don't have permission to edit it`)
+        }
+        return existingComment
+    }
+
+    async removeLike(id: string, postId: string, userId: string): Promise<Comment> {
+        const liked = await this.userModel.findOne({ _id: userId, commentsLiked: id }, { _id: 1 }).exec()
+        if (!liked) {
+            throw new ConflictException(`You don't like this comment`)
+        }
+        const existingUser = await this.userModel
+            .findOneAndUpdate({ _id: userId }, { $pull: { commentsLiked: id } }, { new: true, projection: { _id: 1 } })
+            .exec()
+        if (!existingUser) {
+            throw new NotFoundException(`User with ID ${userId} not found, or you don't have permission`)
+        }
+        const existingComment = await this.commentModel
+            .findOneAndUpdate({ _id: id, postId: postId }, { $inc: { likes: -1 } }, { new: true, projection: { _id: 1 } })
+            .exec()
+        if (!existingComment) {
+            throw new NotFoundException(`Post with ID ${id} not found, or you don't have permission to edit it`)
         }
         return existingComment
     }

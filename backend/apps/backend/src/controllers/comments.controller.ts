@@ -30,4 +30,14 @@ export class CommentsController {
     deleteComment(@Param() params: CommentParamDto, @Request() req): Promise<Comment> {
         return this.commentsService.delete(params.id, req.user.userId)
     }
+
+    @Post(':id/likes')
+    addLike(@Request() requestAnimationFrame, @Param() params: CommentParamDto): Promise<Comment> {
+        return this.commentsService.addLike(params.id, params.postId, requestAnimationFrame.user.userId)
+    }
+
+    @Delete(':id/likes')
+    removeLike(@Request() req, @Param() params: CommentParamDto): Promise<Comment> {
+        return this.commentsService.removeLike(params.id, params.postId, req.user.userId)
+    }
 }

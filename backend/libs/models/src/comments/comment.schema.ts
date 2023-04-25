@@ -19,6 +19,9 @@ export class Comment {
 
     @Prop({ required: true, default: () => new Date() })
     createdDate: Date
+
+    @Prop()
+    likes: number
 }
 
 export const CommentSchema = SchemaFactory.createForClass(Comment)
