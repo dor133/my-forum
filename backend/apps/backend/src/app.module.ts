@@ -15,6 +15,7 @@ import { PostForum, PostForumSchema } from '@app/models/posts/post.schema'
 import { CommentsController } from './controllers/comments.controller'
 import { CommentsService } from './services/comments.service'
 import { CommentSchema, Comment } from '@app/models/comments/comment.schema'
+import { CommentLike, CommentLikeSchema } from '@app/models/likes/commentsLikes/commentLike.schema'
 
 @Module({
     imports: [
@@ -25,6 +26,7 @@ import { CommentSchema, Comment } from '@app/models/comments/comment.schema'
         MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
         MongooseModule.forFeature([{ name: PostForum.name, schema: PostForumSchema }]),
         MongooseModule.forFeature([{ name: Comment.name, schema: CommentSchema }]),
+        MongooseModule.forFeature([{ name: CommentLike.name, schema: CommentLikeSchema }]),
         UsersModule,
         AuthModule,
     ],

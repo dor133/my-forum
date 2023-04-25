@@ -6,7 +6,6 @@ import { CreateUserDto } from '@app/users/dto/create-user.dto'
 import { UserParamDto } from '@app/users/dto/user-param.dto'
 import { Public } from '@app/auth/jwt-public'
 import { PostForum } from '@app/models/posts/post.schema'
-import { Comment } from '@app/models/comments/comment.schema'
 
 @Controller('users')
 export class UsersController {

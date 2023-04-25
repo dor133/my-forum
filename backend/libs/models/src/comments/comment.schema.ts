@@ -6,7 +6,7 @@ import { PostForum } from '../posts/post.schema'
 
 export type CommentDocument = HydratedDocument<Comment>
 
-@Schema()
+@Schema({ toJSON: { virtuals: true } })
 export class Comment {
     @Prop()
     text: string
@@ -19,9 +19,12 @@ export class Comment {
 
     @Prop({ required: true, default: () => new Date() })
     createdDate: Date
-
-    @Prop()
-    likes: number
 }
 
 export const CommentSchema = SchemaFactory.createForClass(Comment)
+
+CommentSchema.virtual('likes', {
+    ref: 'CommentLike',
+    localField: '_id',
+    foreignField: 'commentId',
+})

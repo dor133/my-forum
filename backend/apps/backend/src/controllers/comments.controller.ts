@@ -4,6 +4,7 @@ import { Public } from '@app/auth/jwt-public'
 import { Comment } from '@app/models/comments/comment.schema'
 import { CreateCommentDto } from '../services/dto/create-comment.dto'
 import { CommentParamDto } from '../services/dto/comment-param.dto'
+import { CommentLike } from '@app/models/likes/commentsLikes/commentLike.schema'
 
 @Controller('posts/:postId/comments')
 export class CommentsController {
@@ -32,12 +33,12 @@ export class CommentsController {
     }
 
     @Post(':id/likes')
-    addLike(@Request() requestAnimationFrame, @Param() params: CommentParamDto): Promise<Comment> {
-        return this.commentsService.addLike(params.id, params.postId, requestAnimationFrame.user.userId)
+    addLike(@Request() req, @Param() params: CommentParamDto): Promise<CommentLike> {
+        return this.commentsService.addLike(params.id, req.user.userId)
     }
 
     @Delete(':id/likes')
-    removeLike(@Request() req, @Param() params: CommentParamDto): Promise<Comment> {
-        return this.commentsService.removeLike(params.id, params.postId, req.user.userId)
+    removeLike(@Request() req, @Param() params: CommentParamDto): Promise<CommentLike> {
+        return this.commentsService.removeLike(params.id, req.user.userId)
     }
 }

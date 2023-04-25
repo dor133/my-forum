@@ -6,17 +6,19 @@ import { CreateCommentDto } from './dto/create-comment.dto'
 import { User, UserDocument } from '@app/models/users/user.schema'
 import * as mongoose from 'mongoose'
 import { PostForum, PostForumDocument } from '@app/models/posts/post.schema'
+import { CommentLike, CommentLikeDocument } from '@app/models/likes/commentsLikes/commentLike.schema'
 
 @Injectable()
 export class CommentsService {
     constructor(
         @InjectModel(Comment.name) private commentModel: Model<CommentDocument>,
         @InjectModel(User.name) private userModel: Model<UserDocument>,
-        @InjectModel(PostForum.name) private postModel: Model<PostForumDocument>
+        @InjectModel(PostForum.name) private postModel: Model<PostForumDocument>,
+        @InjectModel(CommentLike.name) private commentLikeModel: Model<CommentLikeDocument>
     ) {}
 
     async findAll(postId: string): Promise<Comment[]> {
-        const existingComments = await this.commentModel.find({ postId: postId }).populate('author', { _id: 1, username: 1 }).exec()
+        const existingComments = await this.commentModel.find({ postId: postId }).populate('author', { _id: 1, username: 1 }).populate('likes').exec()
         if (!existingComments) {
             throw new NotFoundException('No comments found')
         }
@@ -54,43 +56,22 @@ export class CommentsService {
         return existingComment
     }
 
-    async addLike(id: string, postId: string, userId: string): Promise<Comment> {
-        const alreadyLiked = await this.userModel.findOne({ _id: userId, commentsLiked: id }, { _id: 1 }).exec()
+    async addLike(id: string, userId: string): Promise<CommentLike> {
+        const alreadyLiked = await this.commentLikeModel.findOne({ commentId: id, userId: userId }, { _id: 1 }).exec()
         if (alreadyLiked) {
-            throw new ConflictException(`You already liked this comment`)
+            throw new ConflictException(`You already liked this comment, or it doesn't exist`)
         }
-        const existingUser = await this.userModel
-            .findOneAndUpdate({ _id: userId }, { $push: { commentsLiked: id } }, { new: true, projection: { _id: 1 } })
-            .exec()
-        if (!existingUser) {
-            throw new NotFoundException(`User with ID ${userId} not found, or you don't have permission`)
-        }
-        const existingComment = await this.commentModel
-            .findOneAndUpdate({ _id: id, postId: postId }, { $inc: { likes: 1 } }, { new: true, projection: { _id: 1 } })
-            .exec()
-        if (!existingComment) {
-            throw new NotFoundException(`Comment with ID ${id} not found, or you don't have permission to edit it`)
-        }
-        return existingComment
+        const createdLike = new this.commentLikeModel({ userId: userId, commentId: id })
+        console.log('comment liked')
+        return await createdLike.save()
     }
 
-    async removeLike(id: string, postId: string, userId: string): Promise<Comment> {
-        const liked = await this.userModel.findOne({ _id: userId, commentsLiked: id }, { _id: 1 }).exec()
+    async removeLike(id: string, userId: string): Promise<CommentLike> {
+        const liked = await this.commentLikeModel.findOneAndDelete({ commentId: id, userId: userId }, { _id: 1 }).exec()
         if (!liked) {
-            throw new ConflictException(`You don't like this comment`)
+            throw new ConflictException(`You don't like this comment, or it doesn't exist`)
         }
-        const existingUser = await this.userModel
-            .findOneAndUpdate({ _id: userId }, { $pull: { commentsLiked: id } }, { new: true, projection: { _id: 1 } })
-            .exec()
-        if (!existingUser) {
-            throw new NotFoundException(`User with ID ${userId} not found, or you don't have permission`)
-        }
-        const existingComment = await this.commentModel
-            .findOneAndUpdate({ _id: id, postId: postId }, { $inc: { likes: -1 } }, { new: true, projection: { _id: 1 } })
-            .exec()
-        if (!existingComment) {
-            throw new NotFoundException(`Post with ID ${id} not found, or you don't have permission to edit it`)
-        }
-        return existingComment
+        console.log('comment unliked')
+        return liked
     }
 }
