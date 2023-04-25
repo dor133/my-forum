@@ -1,4 +1,4 @@
-import { Controller, Put, Get, Param, Post, Body, Request, Delete } from '@nestjs/common'
+import { Controller, Get, Param, Post, Body, Request, Delete, Req } from '@nestjs/common'
 import { CommentsService } from '../services/comments.service'
 import { Public } from '@app/auth/jwt-public'
 import { Comment } from '@app/models/comments/comment.schema'
@@ -12,8 +12,8 @@ export class CommentsController {
 
     @Public()
     @Get()
-    getComments(@Param() params: CommentParamDto): Promise<Comment[]> {
-        return this.commentsService.findAll(params.postId)
+    getComments(@Param() params: CommentParamDto, @Req() req): Promise<Comment[]> {
+        return this.commentsService.findAll(params.postId, req.user)
     }
 
     @Public()

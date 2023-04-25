@@ -17,8 +17,13 @@ export class CommentsService {
         @InjectModel(CommentLike.name) private commentLikeModel: Model<CommentLikeDocument>
     ) {}
 
-    async findAll(postId: string): Promise<Comment[]> {
-        const existingComments = await this.commentModel.find({ postId: postId }).populate('author', { _id: 1, username: 1 }).populate('likes').exec()
+    async findAll(postId: string, user: any): Promise<Comment[]> {
+        const userId = user ? user.userId : null
+        const existingComments = await this.commentModel
+            .find({ postId: postId })
+            .populate('author', { _id: 1, username: 1 })
+            .populate({ path: 'likes', match: { userId: userId } })
+            .exec()
         if (!existingComments) {
             throw new NotFoundException('No comments found')
         }
