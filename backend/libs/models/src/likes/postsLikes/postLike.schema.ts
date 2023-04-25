@@ -1,21 +1,21 @@
-import { Comment } from '@app/models/comments/comment.schema'
+import { PostForum } from '@app/models/posts/post.schema'
 import { User } from '@app/models/users/user.schema'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import * as mongoose from 'mongoose'
 import { HydratedDocument } from 'mongoose'
 
-export type CommentLikeDocument = HydratedDocument<CommentLike>
+export type PostLikeDocument = HydratedDocument<PostLike>
 
 @Schema()
-export class CommentLike {
+export class PostLike {
     @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'User' })
     userId: User
 
-    @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'Comment' })
-    commentId: Comment
+    @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'PostForum' })
+    postId: PostForum
 
     @Prop({ required: true, default: () => new Date() })
     createdDate: Date
 }
 
-export const CommentLikeSchema = SchemaFactory.createForClass(CommentLike)
+export const PostLikeSchema = SchemaFactory.createForClass(PostLike)

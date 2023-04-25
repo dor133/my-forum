@@ -5,7 +5,7 @@ import { User } from '@app/models/users/user.schema'
 
 export type PostForumDocument = HydratedDocument<PostForum>
 
-@Schema()
+@Schema({ toJSON: { virtuals: true } })
 export class PostForum {
     @Prop()
     title: string
@@ -24,3 +24,9 @@ export class PostForum {
 }
 
 export const PostForumSchema = SchemaFactory.createForClass(PostForum)
+
+PostForumSchema.virtual('like', {
+    ref: 'PostLike',
+    localField: '_id',
+    foreignField: 'postId',
+})

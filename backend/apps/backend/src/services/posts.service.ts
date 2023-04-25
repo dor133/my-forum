@@ -6,13 +6,15 @@ import { CreatePostDto } from './dto/create-post.dto'
 import { User, UserDocument } from '@app/models/users/user.schema'
 import { UpdatePostDto } from './dto/update-post.dto'
 import { Comment, CommentDocument } from '@app/models/comments/comment.schema'
+import { PostLike, PostLikeDocument } from '@app/models/likes/postsLikes/postLike.schema'
 
 @Injectable()
 export class PostsService {
     constructor(
         @InjectModel(PostForum.name) private postModel: Model<PostForumDocument>,
         @InjectModel(User.name) private userModel: Model<UserDocument>,
-        @InjectModel(Comment.name) private commentModel: Model<CommentDocument>
+        @InjectModel(Comment.name) private commentModel: Model<CommentDocument>,
+        @InjectModel(PostLike.name) private postLikeModel: Model<PostLikeDocument>
     ) {}
 
     async findAll(): Promise<PostForum[]> {
@@ -23,8 +25,13 @@ export class PostsService {
         return existingPosts
     }
 
-    async findOneById(id: string): Promise<PostForum> {
-        const existingPost = await this.postModel.findById(id).populate('author', { _id: 1, username: 1 }).exec()
+    async findOneById(id: string, user: any): Promise<PostForum> {
+        const userId = user ? user.userId : null
+        const existingPost = await this.postModel
+            .findById(id)
+            .populate('author', { _id: 1, username: 1 })
+            .populate({ path: 'like', match: { userId: userId } })
+            .exec()
         if (!existingPost) {
             throw new NotFoundException(`Post with ID ${id} not found`)
         }
@@ -57,35 +64,20 @@ export class PostsService {
         return 'Post(s) deleted'
     }
 
-    async addLike(id: string, userId: string): Promise<PostForum> {
-        const alreadyLiked = await this.userModel.findOne({ _id: userId, postsLiked: id }, { _id: 1 }).exec()
+    async addLike(id: string, userId: string): Promise<PostLike> {
+        const alreadyLiked = await this.postLikeModel.findOne({ postId: userId, userId: userId }, { _id: 1 }).exec()
         if (alreadyLiked) {
-            throw new ConflictException(`You already liked this post`)
+            throw new ConflictException(`You already liked this post, or id doesn't exist`)
         }
-        const existingUser = await this.userModel.findOneAndUpdate({ _id: userId }, { $push: { postsLiked: id } }, { new: true, projection: { _id: 1 } }).exec()
-        if (!existingUser) {
-            throw new NotFoundException(`User with ID ${userId} not found, or you don't have permission`)
-        }
-        const existingPost = await this.postModel.findOneAndUpdate({ _id: id }, { $inc: { likes: 1 } }, { new: true, projection: { _id: 1 } }).exec()
-        if (!existingPost) {
-            throw new NotFoundException(`Post with ID ${id} not found, or you don't have permission to edit it`)
-        }
-        return existingPost
+        const createdLike = new this.postLikeModel({ postId: id, userId: userId })
+        return createdLike.save()
     }
 
-    async removeLike(id: string, userId: string): Promise<PostForum> {
-        const liked = await this.userModel.findOne({ _id: userId, postsLiked: id }, { _id: 1 }).exec()
+    async removeLike(id: string, userId: string): Promise<PostLike> {
+        const liked = await this.postLikeModel.findOneAndDelete({ postId: id, userId: userId }, { _id: 1 }).exec()
         if (!liked) {
-            throw new ConflictException(`You don't like this post`)
+            throw new ConflictException(`You didn't like this post, or id doesn't exist`)
         }
-        const existingUser = await this.userModel.findOneAndUpdate({ _id: userId }, { $pull: { postsLiked: id } }, { new: true, projection: { _id: 1 } }).exec()
-        if (!existingUser) {
-            throw new NotFoundException(`User with ID ${userId} not found, or you don't have permission`)
-        }
-        const existingPost = await this.postModel.findOneAndUpdate({ _id: id }, { $inc: { likes: -1 } }, { new: true, projection: { _id: 1 } }).exec()
-        if (!existingPost) {
-            throw new NotFoundException(`Post with ID ${id} not found, or you don't have permission to edit it`)
-        }
-        return existingPost
+        return liked
     }
 }

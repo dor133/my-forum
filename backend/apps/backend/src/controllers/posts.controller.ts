@@ -1,4 +1,4 @@
-import { Controller, Put, Get, Param, Post, Body, Request, Delete } from '@nestjs/common'
+import { Controller, Put, Get, Param, Post, Body, Req, Delete } from '@nestjs/common'
 import { PostsService } from '../services/posts.service'
 import { PostForum } from '@app/models/posts/post.schema'
 import { PostParamDto } from '../services/dto/post-param.dto'
@@ -6,6 +6,7 @@ import { CreatePostDto } from '../services/dto/create-post.dto'
 import { Public } from '@app/auth/jwt-public'
 import { UpdatePostDto } from '../services/dto/update-post.dto'
 import { DeletePostDto } from '../services/dto/delete-post.dto'
+import { PostLike } from '@app/models/likes/postsLikes/postLike.schema'
 
 @Controller('posts')
 export class PostsController {
@@ -19,32 +20,33 @@ export class PostsController {
 
     @Public()
     @Get(':id')
-    getPost(@Param() params: PostParamDto): Promise<PostForum> {
-        return this.postsService.findOneById(params.id)
+    getPost(@Param() params: PostParamDto, @Req() req): Promise<PostForum> {
+        console.log(req.user)
+        return this.postsService.findOneById(params.id, req.user)
     }
 
     @Post()
-    postPost(@Body() createPostDto: CreatePostDto, @Request() req): Promise<PostForum> {
+    postPost(@Body() createPostDto: CreatePostDto, @Req() req): Promise<PostForum> {
         return this.postsService.create(createPostDto, req.user.userId)
     }
 
     @Put(':id')
-    putPost(@Body() updatePostDto: UpdatePostDto, @Param() params: PostParamDto, @Request() req): Promise<PostForum> {
+    putPost(@Body() updatePostDto: UpdatePostDto, @Param() params: PostParamDto, @Req() req): Promise<PostForum> {
         return this.postsService.update(updatePostDto, params.id, req.user.userId)
     }
 
     @Delete()
-    deletePost(@Request() req, @Body() deletePostDto: DeletePostDto): Promise<string> {
+    deletePost(@Req() req, @Body() deletePostDto: DeletePostDto): Promise<string> {
         return this.postsService.delete(deletePostDto.ids, req.user.userId)
     }
 
     @Post(':id/likes')
-    addLike(@Request() req, @Param() params: PostParamDto): Promise<PostForum> {
+    addLike(@Req() req, @Param() params: PostParamDto): Promise<PostLike> {
         return this.postsService.addLike(params.id, req.user.userId)
     }
 
     @Delete(':id/likes')
-    removeLike(@Request() req, @Param() params: PostParamDto): Promise<PostForum> {
+    removeLike(@Req() req, @Param() params: PostParamDto): Promise<PostLike> {
         return this.postsService.removeLike(params.id, req.user.userId)
     }
 }
