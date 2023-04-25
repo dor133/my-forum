@@ -4,6 +4,6 @@ import axiosBaseQuery from '../axiosBaseQuery'
 export const rtkApi = createApi({
     baseQuery: axiosBaseQuery(),
     reducerPath: 'rtkAPi',
-    tagTypes: ['Comments', 'UserPosts', 'Post', 'AllPosts', 'Likes'],
+    tagTypes: ['Comments', 'UserPosts', 'Post', 'AllPosts', 'Likes', 'UserCommentsLikes'],
     endpoints: () => ({}),
 })

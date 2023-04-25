@@ -59,6 +59,7 @@ export type CommentQueryData = {
     createdDate: Date
     author: UserQueryData
     postId: string
+    likes: CommentLikeQueryData[]
 }
 
 export type CommentQueryPayload = {
@@ -67,6 +68,16 @@ export type CommentQueryPayload = {
 }
 
 export type CommentDeleteQueryPayload = {
+    postId: string | undefined
+    id: string
+}
+
+export type CommentLikeQueryData = {
+    userId: string
+    postId: string
+}
+
+export type CommentLikeQueryPayload = {
     postId: string | undefined
     id: string
 }
