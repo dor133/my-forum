@@ -53,6 +53,7 @@ export class CommentsService {
         if (!existingComment) {
             throw new NotFoundException(`Comment with ID ${id} not found, or you don't have permission to delete it`)
         }
+        await this.commentLikeModel.deleteMany({ commentId: id }).exec()
         return existingComment
     }
 
@@ -62,7 +63,6 @@ export class CommentsService {
             throw new ConflictException(`You already liked this comment, or it doesn't exist`)
         }
         const createdLike = new this.commentLikeModel({ userId: userId, commentId: id })
-        console.log('comment liked')
         return await createdLike.save()
     }
 
@@ -71,7 +71,6 @@ export class CommentsService {
         if (!liked) {
             throw new ConflictException(`You don't like this comment, or it doesn't exist`)
         }
-        console.log('comment unliked')
         return liked
     }
 }
