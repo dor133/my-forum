@@ -21,7 +21,6 @@ export class PostsController {
     @Public()
     @Get(':id')
     getPost(@Param() params: PostParamDto, @Req() req): Promise<PostForum> {
-        console.log(req.user)
         return this.postsService.findOneById(params.id, req.user)
     }
 

@@ -42,7 +42,6 @@ export class PostsService {
         const createdPost = new this.postModel(createPostDto)
         const user = new this.userModel({ _id: userId })
         createdPost.author = user
-        console.log(createdPost.author)
         return createdPost.save()
     }
 
