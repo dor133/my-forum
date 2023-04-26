@@ -6,12 +6,16 @@ import useAuthStore from '../../store/auth/auth.store'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Popover, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
+import { rtkApi } from '../../store/rtk'
+import { useDispatch } from 'react-redux'
 
 export function Header() {
     const { payload } = useAuthStore()
+    const dispatch = useDispatch()
 
     const handleDisconnectClick = () => {
         useAuthStore.getState().logOut()
+        dispatch(rtkApi.util.resetApiState())
     }
 
     return (
