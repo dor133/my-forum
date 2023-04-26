@@ -10,12 +10,13 @@ import { rtkApi } from '../../store/rtk'
 import { useDispatch } from 'react-redux'
 
 export function Header() {
-    const { payload } = useAuthStore()
+    const { payload, logOut } = useAuthStore()
     const dispatch = useDispatch()
 
     const handleDisconnectClick = () => {
-        useAuthStore.getState().logOut()
-        dispatch(rtkApi.util.resetApiState())
+        logOut()
+        setTimeout(() => dispatch(rtkApi.util.resetApiState()), 1000)
+        // dispatch(rtkApi.util.resetApiState())
     }
 
     return (

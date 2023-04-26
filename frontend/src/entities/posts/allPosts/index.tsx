@@ -40,6 +40,7 @@ export function AllPosts() {
         [searchTerm, data]
     )
 
+    console.log('re-render')
     return (
         <>
             <Stack>
