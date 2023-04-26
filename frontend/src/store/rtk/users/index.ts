@@ -1,5 +1,5 @@
 import { rtkApi } from '..'
-import { PostQueryData, UserQueryData } from '../../../entities/security/types'
+import { CommentQueryData, PostQueryData, UserQueryData } from '../../../entities/security/types'
 
 const usersEndpoints = rtkApi.injectEndpoints({
     endpoints: (build) => ({
@@ -25,7 +25,7 @@ const usersEndpoints = rtkApi.injectEndpoints({
             providesTags: ['UserPosts'],
         }),
 
-        getUserNbComments: build.query<number, string>({
+        getUserComments: build.query<CommentQueryData[], string>({
             query: (id) => ({
                 url: `users/${id}/comments`,
                 method: 'GET',
@@ -34,4 +34,4 @@ const usersEndpoints = rtkApi.injectEndpoints({
     }),
 })
 
-export const { useGetUsersQuery, useGetUserQuery, useGetUserPostsQuery, useGetUserNbCommentsQuery } = usersEndpoints
+export const { useGetUsersQuery, useGetUserQuery, useGetUserPostsQuery, useGetUserCommentsQuery } = usersEndpoints

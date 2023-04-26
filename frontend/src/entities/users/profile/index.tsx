@@ -5,11 +5,12 @@ import { Stack } from '../../../core/Stack'
 import { Text } from '../../../core/Text'
 import { Button } from '../../../core/Button'
 import useAuthStore from '../../../store/auth/auth.store'
-import { useGetUserQuery, useGetUserPostsQuery, useGetUserNbCommentsQuery } from '../../../store/rtk/users'
+import { useGetUserQuery, useGetUserPostsQuery } from '../../../store/rtk/users'
 import { useDeletePostMutation } from '../../../store/rtk/posts'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { Link } from 'react-router-dom'
+import { Analytics } from '../analytics'
 
 const checkSchema = Yup.object().shape({
     checkbox: Yup.array().min(1, 'Vous devez sélectionner au moins un post'),
@@ -20,7 +21,6 @@ export function Profile() {
     const [deletePost] = useDeletePostMutation()
     const { data: user } = useGetUserQuery(payload!.sub)
     const { data: posts } = useGetUserPostsQuery(payload!.sub)
-    const { data: nbComments } = useGetUserNbCommentsQuery(payload!.sub)
     const userDate = new Date(user?.createdDate!)
     const havePosts = posts ? posts?.length > 0 : false
 
@@ -50,13 +50,6 @@ export function Profile() {
             </Center>
 
             <Stack>
-                <Text variant="paragraph">
-                    Nombre de posts : <span className="font-bold">{posts?.length}</span>
-                </Text>
-                <Text variant="paragraph">
-                    Nombre de commentaires : <span className="font-bold">{nbComments}</span>
-                </Text>
-
                 <div className="border-t border-gray-200 py-1.5">
                     <form onSubmit={formik.handleSubmit}>
                         <Group justify="between">
@@ -99,6 +92,10 @@ export function Profile() {
                             <Text variant="label">Vous n'avez pas encore posté</Text>
                         )}
                     </form>
+                </div>
+
+                <div className="border-t border-gray-200 py-2">
+                    <Analytics />
                 </div>
             </Stack>
         </Card>
