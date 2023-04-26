@@ -75,7 +75,7 @@ export type CommentDeleteQueryPayload = {
 
 export type CommentLikeQueryData = {
     userId: string
-    postId: string
+    commentId: string
 }
 
 export type CommentLikeQueryPayload = {
