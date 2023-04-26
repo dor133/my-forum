@@ -45,6 +45,7 @@ export type PostQueryData = {
     text: string
     createdDate: Date
     author: UserQueryData
+    like: PostLikeQueryData[]
 }
 
 export type UserQueryData = {
@@ -80,4 +81,13 @@ export type CommentLikeQueryData = {
 export type CommentLikeQueryPayload = {
     postId: string | undefined
     id: string
+}
+
+export type PostLikeQueryPayload = {
+    postId: string | undefined
+}
+
+export type PostLikeQueryData = {
+    userId: string
+    postId: string
 }

@@ -1,5 +1,5 @@
 import { rtkApi } from '..'
-import { PostDeleteQueryPayload, PostQueryData, PostQueryPayload, PostModifyQueryPayload } from '../../../entities/security/types'
+import { PostDeleteQueryPayload, PostQueryData, PostQueryPayload, PostModifyQueryPayload, PostLikeQueryPayload } from '../../../entities/security/types'
 
 const postsEndpoints = rtkApi.injectEndpoints({
     endpoints: (build) => ({
@@ -16,7 +16,7 @@ const postsEndpoints = rtkApi.injectEndpoints({
                 url: `posts/${id}`,
                 method: 'GET',
             }),
-            providesTags: ['Post'],
+            providesTags: ['Post', 'PostLike'],
         }),
 
         createPost: build.mutation<PostQueryData, PostQueryPayload>({
@@ -45,7 +45,31 @@ const postsEndpoints = rtkApi.injectEndpoints({
             }),
             invalidatesTags: ['UserPosts', 'Post', 'AllPosts'],
         }),
+
+        addLike: build.mutation<PostQueryData, PostLikeQueryPayload>({
+            query: ({ postId }) => ({
+                url: `posts/${postId}/likes`,
+                method: 'POST',
+            }),
+            invalidatesTags: ['PostLike'],
+        }),
+
+        removeLike: build.mutation<PostQueryData, PostLikeQueryPayload>({
+            query: ({ postId }) => ({
+                url: `posts/${postId}/likes`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['PostLike'],
+        }),
     }),
 })
 
-export const { useGetPostsQuery, useGetPostQuery, useCreatePostMutation, useDeletePostMutation, useModifyPostMutation } = postsEndpoints
+export const {
+    useGetPostsQuery,
+    useGetPostQuery,
+    useCreatePostMutation,
+    useDeletePostMutation,
+    useModifyPostMutation,
+    useAddLikeMutation,
+    useRemoveLikeMutation,
+} = postsEndpoints
