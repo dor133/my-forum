@@ -18,7 +18,7 @@ export class PostsService {
     ) {}
 
     async findAll(): Promise<PostForum[]> {
-        const existingPosts = await this.postModel.find({}, { _id: 1, title: 1 }).exec()
+        const existingPosts = await this.postModel.find({}, { _id: 1, title: 1, createdDate: 1 }).exec()
         if (!existingPosts) {
             throw new NotFoundException('No posts found')
         }
@@ -78,5 +78,14 @@ export class PostsService {
             throw new ConflictException(`You didn't like this post, or id doesn't exist`)
         }
         return liked
+    }
+
+    async getLastWeekPosts(): Promise<PostForum[]> {
+        const currentDate = new Date()
+        const existingPosts = await this.postModel.find({ createdDate: { $gte: new Date(currentDate.getTime() - 1000 * 86400 * 7) } })
+        if (!existingPosts) {
+            throw new NotFoundException('No posts found')
+        }
+        return existingPosts
     }
 }

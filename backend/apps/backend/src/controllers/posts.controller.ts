@@ -48,4 +48,9 @@ export class PostsController {
     removeLike(@Req() req, @Param() params: PostParamDto): Promise<PostLike> {
         return this.postsService.removeLike(params.id, req.user.userId)
     }
+
+    @Get('analytics/lastweek')
+    getLastWeekPosts(): Promise<PostForum[]> {
+        return this.postsService.getLastWeekPosts()
+    }
 }

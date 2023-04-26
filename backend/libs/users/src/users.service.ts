@@ -25,7 +25,7 @@ export class UsersService {
     }
 
     async findOneById(id: string): Promise<User> {
-        const existingUser = await this.userModel.findById(id, { _id: 1, username: 1, createdDate: 1 }).exec()
+        const existingUser = await this.userModel.findById(id, { _id: 1, username: 1 }).exec()
         if (!existingUser) {
             throw new NotFoundException(`User with ID ${id} not found`)
         }
@@ -64,18 +64,18 @@ export class UsersService {
     }
 
     async findPosts(id: string): Promise<PostForum[]> {
-        const existingPosts = await this.postModel.find({ author: id }).exec()
+        const existingPosts = await this.postModel.find({ author: id }, { _id: 1 }).exec()
         if (!existingPosts) {
             throw new NotFoundException(`No posts or error finding posts for user with ID ${id}`)
         }
         return existingPosts
     }
 
-    async findComments(id: string): Promise<number> {
+    async findComments(id: string): Promise<Comment[]> {
         const existingComments = await this.commentModel.find({ author: id }, { _id: 1 }).exec()
         if (!existingComments) {
             throw new NotFoundException(`No comments or error finding comments for user with ID ${id}`)
         }
-        return existingComments.length
+        return existingComments
     }
 }
