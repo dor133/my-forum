@@ -190,4 +190,113 @@ export class PostsService {
         }
         return existingPosts[0]
     }
+
+    async getLikesAnalytics(userId: string): Promise<PostLike> {
+        const currentDate = moment()
+        const id = new ObjectId(userId)
+        const existingLikes = await this.postLikeModel.aggregate([
+            {
+                $facet: {
+                    lastWeekCount: [
+                        {
+                            $match: {
+                                createdDate: {
+                                    $gte: currentDate.subtract(1, 'week').toDate(),
+                                },
+                                userId: id,
+                            },
+                        },
+                        {
+                            $count: 'count',
+                        },
+                    ],
+                    lastWeek2Count: [
+                        {
+                            $match: {
+                                $and: [{ createdDate: { $lt: currentDate.toDate() } }, { createdDate: { $gte: currentDate.subtract(1, 'week').toDate() } }],
+                                userId: id,
+                            },
+                        },
+                        {
+                            $count: 'count',
+                        },
+                    ],
+                    lastWeek3Count: [
+                        {
+                            $match: {
+                                $and: [{ createdDate: { $lt: currentDate.toDate() } }, { createdDate: { $gte: currentDate.subtract(1, 'week').toDate() } }],
+                                userId: id,
+                            },
+                        },
+                        {
+                            $count: 'count',
+                        },
+                    ],
+                    lastWeek4Count: [
+                        {
+                            $match: {
+                                $and: [{ createdDate: { $lt: currentDate.toDate() } }, { createdDate: { $gte: currentDate.subtract(1, 'week').toDate() } }],
+                                userId: id,
+                            },
+                        },
+                        {
+                            $count: 'count',
+                        },
+                    ],
+                },
+            },
+            {
+                $project: {
+                    lastWeekCount: {
+                        $cond: {
+                            if: {
+                                $eq: [{ $size: '$lastWeekCount.count' }, 0],
+                            },
+                            then: 0,
+                            else: {
+                                $arrayElemAt: ['$lastWeekCount.count', 0],
+                            },
+                        },
+                    },
+                    lastWeek2Count: {
+                        $cond: {
+                            if: {
+                                $eq: [{ $size: '$lastWeek2Count.count' }, 0],
+                            },
+                            then: 0,
+                            else: {
+                                $arrayElemAt: ['$lastWeek2Count.count', 0],
+                            },
+                        },
+                    },
+                    lastWeek3Count: {
+                        $cond: {
+                            if: {
+                                $eq: [{ $size: '$lastWeek3Count.count' }, 0],
+                            },
+                            then: 0,
+                            else: {
+                                $arrayElemAt: ['$lastWeek3Count.count', 0],
+                            },
+                        },
+                    },
+                    lastWeek4Count: {
+                        $cond: {
+                            if: {
+                                $eq: [{ $size: '$lastWeek4Count.count' }, 0],
+                            },
+                            then: 0,
+                            else: {
+                                $arrayElemAt: ['$lastWeek4Count.count', 0],
+                            },
+                        },
+                    },
+                },
+            },
+        ])
+        if (!existingLikes) {
+            throw new NotFoundException('No likes found')
+        }
+        return existingLikes[0]
+    }
 }
