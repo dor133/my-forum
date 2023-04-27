@@ -7,6 +7,7 @@ import { User, UserDocument } from '@app/models/users/user.schema'
 import { UpdatePostDto } from './dto/update-post.dto'
 import { Comment, CommentDocument } from '@app/models/comments/comment.schema'
 import { PostLike, PostLikeDocument } from '@app/models/likes/postsLikes/postLike.schema'
+import * as moment from 'moment'
 
 @Injectable()
 export class PostsService {
@@ -80,8 +81,8 @@ export class PostsService {
         return liked
     }
 
-    async getLastPostsAnalytics(): Promise<PostForum[]> {
-        const currentDate = new Date()
+    async getLastPostsAnalytics(): Promise<PostForum> {
+        const currentDate = moment()
         const existingPosts = await this.postModel.aggregate([
             {
                 $facet: {
@@ -89,7 +90,7 @@ export class PostsService {
                         {
                             $match: {
                                 createdDate: {
-                                    $gte: new Date(currentDate.getTime() - 1000 * 86400 * 7),
+                                    $gte: currentDate.subtract(1, 'week').toDate(),
                                 },
                             },
                         },
@@ -100,10 +101,7 @@ export class PostsService {
                     lastWeek2Count: [
                         {
                             $match: {
-                                createdDate: {
-                                    $gte: new Date(currentDate.getTime() - 1000 * 86400 * 14),
-                                    $lt: new Date(currentDate.getTime() - 1000 * 86400 * 7),
-                                },
+                                $and: [{ createdDate: { $lt: currentDate.toDate() } }, { createdDate: { $gte: currentDate.subtract(1, 'week').toDate() } }],
                             },
                         },
                         {
@@ -113,10 +111,7 @@ export class PostsService {
                     lastWeek3Count: [
                         {
                             $match: {
-                                createdDate: {
-                                    $gte: new Date(currentDate.getTime() - 1000 * 86400 * 21),
-                                    $lt: new Date(currentDate.getTime() - 1000 * 86400 * 14),
-                                },
+                                $and: [{ createdDate: { $lt: currentDate.toDate() } }, { createdDate: { $gte: currentDate.subtract(1, 'week').toDate() } }],
                             },
                         },
                         {
@@ -126,10 +121,7 @@ export class PostsService {
                     lastWeek4Count: [
                         {
                             $match: {
-                                createdDate: {
-                                    $gte: new Date(currentDate.getTime() - 1000 * 86400 * 29),
-                                    $lt: new Date(currentDate.getTime() - 1000 * 86400 * 21),
-                                },
+                                $and: [{ createdDate: { $lt: currentDate.toDate() } }, { createdDate: { $gte: currentDate.subtract(1, 'week').toDate() } }],
                             },
                         },
                         {
@@ -139,18 +131,50 @@ export class PostsService {
                 },
             },
             {
-                $set: {
+                $project: {
                     lastWeekCount: {
-                        $arrayElemAt: ['$lastWeekCount', 0],
+                        $cond: {
+                            if: {
+                                $eq: [{ $size: '$lastWeekCount.count' }, 0],
+                            },
+                            then: 0,
+                            else: {
+                                $arrayElemAt: ['$lastWeekCount.count', 0],
+                            },
+                        },
                     },
                     lastWeek2Count: {
-                        $arrayElemAt: ['$lastWeek2Count', 0],
+                        $cond: {
+                            if: {
+                                $eq: [{ $size: '$lastWeek2Count.count' }, 0],
+                            },
+                            then: 0,
+                            else: {
+                                $arrayElemAt: ['$lastWeek2Count.count', 0],
+                            },
+                        },
                     },
                     lastWeek3Count: {
-                        $arrayElemAt: ['$lastWeek3Count', 0],
+                        $cond: {
+                            if: {
+                                $eq: [{ $size: '$lastWeek3Count.count' }, 0],
+                            },
+                            then: 0,
+                            else: {
+                                $arrayElemAt: ['$lastWeek3Count.count', 0],
+                            },
+                        },
                     },
                     lastWeek4Count: {
-                        $arrayElemAt: ['$lastWeek4Count', 0],
+                        $cond: {
+                            if: {
+                                $eq: [{ $size: '$lastWeek4Count.count' }, 0],
+                            },
+                            then: 0,
+                            else: {
+                                $arrayElemAt: ['$lastWeek4Count.count', 0],
+                            },
+                        },
                     },
                 },
             },
@@ -158,6 +182,6 @@ export class PostsService {
         if (!existingPosts) {
             throw new NotFoundException('No posts found')
         }
-        return existingPosts
+        return existingPosts[0]
     }
 }
