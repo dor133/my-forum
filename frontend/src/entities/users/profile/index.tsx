@@ -10,7 +10,7 @@ import { useDeletePostMutation } from '../../../store/rtk/posts'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { Link } from 'react-router-dom'
-import { Analytics } from '../analytics'
+import { UserAnalytics } from '../userAnalytics'
 
 const checkSchema = Yup.object().shape({
     checkbox: Yup.array().min(1, 'Vous devez sélectionner au moins un post'),
@@ -95,7 +95,7 @@ export function Profile() {
                 </div>
 
                 <div className="border-t border-gray-200 py-2">
-                    <Analytics />
+                    <UserAnalytics />
                 </div>
             </Stack>
         </Card>

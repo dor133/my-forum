@@ -4,7 +4,7 @@ import { useGetLastPostsAnalyticsQuery, useGetUserLastPostsAnalyticsQuery, useGe
 import { useGetUserCommentsQuery, useGetUserPostsQuery } from '../../../store/rtk/users'
 import { BarChart, Bar, ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts'
 
-export function Analytics() {
+export function UserAnalytics() {
     const { payload } = useAuthStore()
     const { data: userPosts, isError: userPostsError, isLoading: userPostsLoading } = useGetUserPostsQuery(payload!.sub)
     const { data: userComments, isError: userCommentsError, isLoading: userCommentsLoading } = useGetUserCommentsQuery(payload!.sub)
