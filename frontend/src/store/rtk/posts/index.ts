@@ -1,5 +1,12 @@
 import { rtkApi } from '..'
-import { PostDeleteQueryPayload, PostQueryData, PostQueryPayload, PostModifyQueryPayload, PostLikeQueryPayload } from '../../../entities/security/types'
+import {
+    PostDeleteQueryPayload,
+    PostQueryData,
+    PostQueryPayload,
+    PostModifyQueryPayload,
+    PostLikeQueryPayload,
+    LastPostsAnalyticsData,
+} from '../../../entities/security/types'
 
 const postsEndpoints = rtkApi.injectEndpoints({
     endpoints: (build) => ({
@@ -61,6 +68,13 @@ const postsEndpoints = rtkApi.injectEndpoints({
             }),
             invalidatesTags: ['PostLike'],
         }),
+
+        getLastPostsAnalytics: build.query<LastPostsAnalyticsData, void>({
+            query: () => ({
+                url: 'posts/analytics/lastweeks',
+                method: 'GET',
+            }),
+        }),
     }),
 })
 
@@ -72,4 +86,5 @@ export const {
     useModifyPostMutation,
     useAddLikeMutation,
     useRemoveLikeMutation,
+    useGetLastPostsAnalyticsQuery,
 } = postsEndpoints

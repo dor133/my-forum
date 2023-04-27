@@ -91,3 +91,10 @@ export type PostLikeQueryData = {
     userId: string
     postId: string
 }
+
+export type LastPostsAnalyticsData = {
+    lastWeekCount: number
+    lastWeek2Count: number
+    lastWeek3Count: number
+    lastWeek4Count: number
+}
