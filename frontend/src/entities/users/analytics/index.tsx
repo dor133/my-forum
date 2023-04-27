@@ -58,9 +58,9 @@ export function Analytics() {
             <Text variant="subtitle" className="pt-5">
                 Nombre de posts sur les 4 dernières semaines
             </Text>
-            {nbLastPostsError ? (
+            {nbLastPostsError && nbUserLastPostsError ? (
                 <div>Une erreur est survenue</div>
-            ) : nbLastPostsLoading ? (
+            ) : nbLastPostsLoading && nbUserLastPostsLoading ? (
                 <div>Loading...</div>
             ) : (
                 <ResponsiveContainer height={500} width="70%">
