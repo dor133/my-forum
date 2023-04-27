@@ -80,9 +80,81 @@ export class PostsService {
         return liked
     }
 
-    async getLastWeekPosts(): Promise<PostForum[]> {
+    async getLastPostsAnalytics(): Promise<PostForum[]> {
         const currentDate = new Date()
-        const existingPosts = await this.postModel.find({ createdDate: { $gte: new Date(currentDate.getTime() - 1000 * 86400 * 7) } })
+        const existingPosts = await this.postModel.aggregate([
+            {
+                $facet: {
+                    lastWeekCount: [
+                        {
+                            $match: {
+                                createdDate: {
+                                    $gte: new Date(currentDate.getTime() - 1000 * 86400 * 7),
+                                },
+                            },
+                        },
+                        {
+                            $count: 'count',
+                        },
+                    ],
+                    lastWeek2Count: [
+                        {
+                            $match: {
+                                createdDate: {
+                                    $gte: new Date(currentDate.getTime() - 1000 * 86400 * 14),
+                                    $lt: new Date(currentDate.getTime() - 1000 * 86400 * 7),
+                                },
+                            },
+                        },
+                        {
+                            $count: 'count',
+                        },
+                    ],
+                    lastWeek3Count: [
+                        {
+                            $match: {
+                                createdDate: {
+                                    $gte: new Date(currentDate.getTime() - 1000 * 86400 * 21),
+                                    $lt: new Date(currentDate.getTime() - 1000 * 86400 * 14),
+                                },
+                            },
+                        },
+                        {
+                            $count: 'count',
+                        },
+                    ],
+                    lastWeek4Count: [
+                        {
+                            $match: {
+                                createdDate: {
+                                    $gte: new Date(currentDate.getTime() - 1000 * 86400 * 29),
+                                    $lt: new Date(currentDate.getTime() - 1000 * 86400 * 21),
+                                },
+                            },
+                        },
+                        {
+                            $count: 'count',
+                        },
+                    ],
+                },
+            },
+            {
+                $set: {
+                    lastWeekCount: {
+                        $arrayElemAt: ['$lastWeekCount', 0],
+                    },
+                    lastWeek2Count: {
+                        $arrayElemAt: ['$lastWeek2Count', 0],
+                    },
+                    lastWeek3Count: {
+                        $arrayElemAt: ['$lastWeek3Count', 0],
+                    },
+                    lastWeek4Count: {
+                        $arrayElemAt: ['$lastWeek4Count', 0],
+                    },
+                },
+            },
+        ])
         if (!existingPosts) {
             throw new NotFoundException('No posts found')
         }
