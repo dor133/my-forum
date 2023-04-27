@@ -64,7 +64,7 @@ export class UsersService {
     }
 
     async findPosts(id: string): Promise<PostForum[]> {
-        const existingPosts = await this.postModel.find({ author: id }, { _id: 1 }).exec()
+        const existingPosts = await this.postModel.find({ author: id }, { _id: 1, title: 1 }).exec()
         if (!existingPosts) {
             throw new NotFoundException(`No posts or error finding posts for user with ID ${id}`)
         }
