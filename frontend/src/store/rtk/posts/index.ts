@@ -75,6 +75,13 @@ const postsEndpoints = rtkApi.injectEndpoints({
                 method: 'GET',
             }),
         }),
+
+        getUserLastPostsAnalytics: build.query<LastPostsAnalyticsData, void>({
+            query: () => ({
+                url: 'posts/analytics/user/lastweeks',
+                method: 'GET',
+            }),
+        }),
     }),
 })
 
@@ -87,4 +94,5 @@ export const {
     useAddLikeMutation,
     useRemoveLikeMutation,
     useGetLastPostsAnalyticsQuery,
+    useGetUserLastPostsAnalyticsQuery,
 } = postsEndpoints
