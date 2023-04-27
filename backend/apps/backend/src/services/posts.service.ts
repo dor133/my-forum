@@ -8,6 +8,7 @@ import { UpdatePostDto } from './dto/update-post.dto'
 import { Comment, CommentDocument } from '@app/models/comments/comment.schema'
 import { PostLike, PostLikeDocument } from '@app/models/likes/postsLikes/postLike.schema'
 import * as moment from 'moment'
+import { ObjectId } from 'mongodb'
 
 @Injectable()
 export class PostsService {
@@ -81,8 +82,9 @@ export class PostsService {
         return liked
     }
 
-    async getLastPostsAnalytics(): Promise<PostForum> {
+    async getLastPostsAnalytics(userId?: string): Promise<PostForum> {
         const currentDate = moment()
+        const id = new ObjectId(userId)
         const existingPosts = await this.postModel.aggregate([
             {
                 $facet: {
@@ -92,6 +94,7 @@ export class PostsService {
                                 createdDate: {
                                     $gte: currentDate.subtract(1, 'week').toDate(),
                                 },
+                                author: userId ? id : { $exists: true },
                             },
                         },
                         {
@@ -102,6 +105,7 @@ export class PostsService {
                         {
                             $match: {
                                 $and: [{ createdDate: { $lt: currentDate.toDate() } }, { createdDate: { $gte: currentDate.subtract(1, 'week').toDate() } }],
+                                author: userId ? id : { $exists: true },
                             },
                         },
                         {
@@ -112,6 +116,7 @@ export class PostsService {
                         {
                             $match: {
                                 $and: [{ createdDate: { $lt: currentDate.toDate() } }, { createdDate: { $gte: currentDate.subtract(1, 'week').toDate() } }],
+                                author: userId ? id : { $exists: true },
                             },
                         },
                         {
@@ -122,6 +127,7 @@ export class PostsService {
                         {
                             $match: {
                                 $and: [{ createdDate: { $lt: currentDate.toDate() } }, { createdDate: { $gte: currentDate.subtract(1, 'week').toDate() } }],
+                                author: userId ? id : { $exists: true },
                             },
                         },
                         {

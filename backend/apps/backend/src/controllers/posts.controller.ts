@@ -53,4 +53,9 @@ export class PostsController {
     getLastWeekPosts(): Promise<PostForum> {
         return this.postsService.getLastPostsAnalytics()
     }
+
+    @Get('analytics/user/lastweeks')
+    getUserLastWeekPosts(@Req() req): Promise<PostForum> {
+        return this.postsService.getLastPostsAnalytics(req.user.userId)
+    }
 }
