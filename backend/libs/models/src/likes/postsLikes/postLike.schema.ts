@@ -1,5 +1,5 @@
-import { PostForum } from '@app/models/posts/post.schema'
-import { User } from '@app/models/users/user.schema'
+import { PostForum } from '../../posts/post.schema'
+import { User } from '../../users/user.schema'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import * as mongoose from 'mongoose'
 import { HydratedDocument } from 'mongoose'
