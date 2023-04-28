@@ -6,6 +6,7 @@ import {
     PostModifyQueryPayload,
     PostLikeQueryPayload,
     LastPostsAnalyticsData,
+    MostActiveUsersAnalyticsData,
 } from '../../../entities/security/types'
 
 const postsEndpoints = rtkApi.injectEndpoints({
@@ -89,6 +90,13 @@ const postsEndpoints = rtkApi.injectEndpoints({
                 method: 'GET',
             }),
         }),
+
+        getMostActiveUsersAnalytics: build.query<MostActiveUsersAnalyticsData[], void>({
+            query: () => ({
+                url: 'posts/analytics/mostactive',
+                method: 'GET',
+            }),
+        }),
     }),
 })
 
@@ -103,4 +111,5 @@ export const {
     useGetLastPostsAnalyticsQuery,
     useGetUserLastPostsAnalyticsQuery,
     useGetUserLastLikesAnalyticsQuery,
+    useGetMostActiveUsersAnalyticsQuery,
 } = postsEndpoints

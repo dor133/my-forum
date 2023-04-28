@@ -98,3 +98,8 @@ export type LastPostsAnalyticsData = {
     lastWeek3Count: number
     lastWeek4Count: number
 }
+
+export type MostActiveUsersAnalyticsData = {
+    count: number
+    user: UserQueryData
+}
