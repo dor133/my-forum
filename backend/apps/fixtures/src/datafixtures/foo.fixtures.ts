@@ -9,7 +9,6 @@ export class FooFixtures extends Fixtures {
     }
 
     async load(): Promise<void> {
-        console.log('hey')
-        const documents = await this.model.insertMany([{ username: 'test' }])
+        // const documents = await this.model.insertMany([{ username: 'test' }])
     }
 }

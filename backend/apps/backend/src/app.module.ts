@@ -23,7 +23,7 @@ import { PostLike, PostLikeSchema } from '@app/models/likes/postsLikes/postLike.
         ConfigModule.forRoot({
             isGlobal: true,
         }),
-        MongooseModule.forRoot(process.env.MONGO_URI, { dbName: 'my-forum' }),
+        MongooseModule.forRoot(process.env.MONGO_URI, { dbName: 'fixtures' }),
         MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
         MongooseModule.forFeature([{ name: PostForum.name, schema: PostForumSchema }]),
         MongooseModule.forFeature([{ name: Comment.name, schema: CommentSchema }]),
