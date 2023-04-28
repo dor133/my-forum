@@ -86,7 +86,7 @@ export function UserAnalytics() {
                     <BarChart width={500} height={300} data={postData} margin={{ top: 10, right: 0, left: 20, bottom: 10 }}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />
-                        <YAxis />
+                        <YAxis allowDecimals={false} />
                         <Tooltip />
                         <Legend />
                         <Bar dataKey="Mes posts" fill="#82ca9d" />
@@ -107,7 +107,7 @@ export function UserAnalytics() {
                     <BarChart width={500} height={300} data={likeData} margin={{ top: 10, right: 0, left: 20, bottom: 10 }}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />
-                        <YAxis />
+                        <YAxis allowDecimals={false} />
                         <Tooltip />
                         <Legend />
                         <Bar dataKey="Nombre de likes" fill="#FFAFDF" />
