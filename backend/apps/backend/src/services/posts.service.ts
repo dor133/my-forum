@@ -314,4 +314,38 @@ export class PostsService {
         }
         return existingLikes[0]
     }
+
+    async getMostActiveUsers(): Promise<User[]> {
+        const existingUsers = await this.postModel.aggregate([
+            {
+                $sortByCount: '$author',
+            },
+            {
+                $limit: 3,
+            },
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: '_id',
+                    foreignField: '_id',
+                    as: 'user',
+                },
+            },
+            {
+                $unwind: '$user',
+            },
+            {
+                $project: {
+                    'user.password': 0,
+                    'user.email': 0,
+                    'user.createdDate': 0,
+                    _id: 0,
+                },
+            },
+        ])
+        if (!existingUsers) {
+            throw new NotFoundException('No users found')
+        }
+        return existingUsers
+    }
 }

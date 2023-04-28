@@ -7,6 +7,7 @@ import { Public } from '@app/auth/jwt-public'
 import { UpdatePostDto } from '../services/dto/update-post.dto'
 import { DeletePostDto } from '../services/dto/delete-post.dto'
 import { PostLike } from '@app/models/likes/postsLikes/postLike.schema'
+import { User } from '@app/models/users/user.schema'
 
 @Controller('posts')
 export class PostsController {
@@ -62,5 +63,11 @@ export class PostsController {
     @Get('analytics/user/likes')
     getUserLastWeekLikes(@Req() req): Promise<PostLike> {
         return this.postsService.getUserLikesAnalytics(req.user.userId)
+    }
+
+    @Public()
+    @Get('analytics/mostactive')
+    getMostActiveUsers(): Promise<User[]> {
+        return this.postsService.getMostActiveUsers()
     }
 }
