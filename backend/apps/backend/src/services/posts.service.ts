@@ -191,10 +191,25 @@ export class PostsService {
         return existingPosts[0]
     }
 
-    async getLikesAnalytics(userId: string): Promise<PostLike> {
+    async getUserLikesAnalytics(userId: string): Promise<PostLike> {
         const currentDate = moment()
         const id = new ObjectId(userId)
         const existingLikes = await this.postLikeModel.aggregate([
+            {
+                $lookup: {
+                    from: 'postforums',
+                    localField: 'postId',
+                    foreignField: '_id',
+                    as: 'post',
+                },
+            },
+            {
+                $project: {
+                    'post.createdDate': 0,
+                    'post.title': 0,
+                    'post.text': 0,
+                },
+            },
             {
                 $facet: {
                     lastWeekCount: [
@@ -203,7 +218,7 @@ export class PostsService {
                                 createdDate: {
                                     $gte: currentDate.subtract(1, 'week').toDate(),
                                 },
-                                userId: id,
+                                'post.author': id,
                             },
                         },
                         {
@@ -214,7 +229,7 @@ export class PostsService {
                         {
                             $match: {
                                 $and: [{ createdDate: { $lt: currentDate.toDate() } }, { createdDate: { $gte: currentDate.subtract(1, 'week').toDate() } }],
-                                userId: id,
+                                'post.author': id,
                             },
                         },
                         {
@@ -225,7 +240,7 @@ export class PostsService {
                         {
                             $match: {
                                 $and: [{ createdDate: { $lt: currentDate.toDate() } }, { createdDate: { $gte: currentDate.subtract(1, 'week').toDate() } }],
-                                userId: id,
+                                'post.author': id,
                             },
                         },
                         {
@@ -236,7 +251,7 @@ export class PostsService {
                         {
                             $match: {
                                 $and: [{ createdDate: { $lt: currentDate.toDate() } }, { createdDate: { $gte: currentDate.subtract(1, 'week').toDate() } }],
-                                userId: id,
+                                'post.author': id,
                             },
                         },
                         {
