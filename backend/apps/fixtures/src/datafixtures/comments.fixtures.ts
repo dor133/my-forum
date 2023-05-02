@@ -29,5 +29,6 @@ export class CommentsFixtures extends Fixtures {
             comments.push(post)
         }
         const documents = await this.commentModel.insertMany(comments)
+        this.reference.addReference('Comments', documents)
     }
 }
