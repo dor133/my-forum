@@ -61,7 +61,7 @@ export function AllPosts() {
                         <div className="flex flex-row mx-auto">
                             <button
                                 type="button"
-                                className="bg-gray-800 text-white rounded-l-md border-r border-gray-100 py-2 hover:bg-primary-500 hover:text-white px-3"
+                                className="bg-gray-800 text-white rounded-l-md border-r border-gray-100 py-2 hover:bg-primary-700 hover:text-white px-3"
                                 onClick={() => page > 1 && setPage(page - 1)}
                             >
                                 <div className="flex flex-row align-middle">
@@ -84,7 +84,7 @@ export function AllPosts() {
 
                             <button
                                 type="button"
-                                className="bg-gray-800 text-white rounded-r-md py-2 border-l border-gray-200 hover:bg-primary-500 hover:text-white px-3"
+                                className="bg-gray-800 text-white rounded-r-md py-2 border-l border-gray-200 hover:bg-primary-700 hover:text-white px-3"
                                 onClick={() => data?.length === 10 && setPage(page + 1)}
                             >
                                 <div className="flex flex-row align-middle">
