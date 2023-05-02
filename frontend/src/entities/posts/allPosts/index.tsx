@@ -6,7 +6,7 @@ import useAuthStore from '../../../store/auth/auth.store'
 import { useGetPostsQuery } from '../../../store/rtk/posts'
 import { Center } from '../../../core/Center'
 import { Input } from '../../../core/Input'
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { debounce } from 'lodash'
 
@@ -25,23 +25,6 @@ export function AllPosts() {
         setPage(1)
     }
     const { data, error, isLoading } = useGetPostsQuery({ page, search: searchTerm })
-
-    const filteredPosts = useMemo(
-        () =>
-            data?.filter((post) => {
-                return post.title
-                    .toLowerCase()
-                    .normalize('NFD')
-                    .replace(/\p{Diacritic}/gu, '')
-                    .includes(
-                        searchTerm
-                            .toLowerCase()
-                            .normalize('NFD')
-                            .replace(/\p{Diacritic}/gu, '')
-                    )
-            }),
-        [searchTerm, data]
-    )
 
     return (
         <>
@@ -67,7 +50,7 @@ export function AllPosts() {
 
                         <Text variant="paragraph">
                             <ul className="list-disc list-inside">
-                                {filteredPosts?.map((post) => (
+                                {data?.map((post) => (
                                     <li key={post._id}>
                                         <Link to={`/posts/${post._id}`}>{post.title}</Link>
                                     </li>

@@ -21,9 +21,8 @@ export class PostsService {
 
     async findAll(page: number, search?: string): Promise<PostForum[]> {
         const [start, end] = [(page - 1) * 10, page * 10]
-
         const existingPosts = await this.postModel
-            .find(search ? { title: { $regex: search } } : {}, { _id: 1, title: 1, createdDate: 1 })
+            .find(search ? { title: { $regex: search, $options: 'i' } } : {}, { _id: 1, title: 1, createdDate: 1 })
             .sort({ createdDate: 'descending' })
             .skip(start)
             .limit(end - start)
