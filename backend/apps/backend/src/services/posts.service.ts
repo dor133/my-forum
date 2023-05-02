@@ -1,5 +1,5 @@
 import { PostForumDocument, PostForum } from '@app/models/posts/post.schema'
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
+import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
 import { Model } from 'mongoose'
 import { CreatePostDto } from './dto/create-post.dto'
@@ -19,12 +19,24 @@ export class PostsService {
         @InjectModel(PostLike.name) private postLikeModel: Model<PostLikeDocument>
     ) {}
 
-    async findAll(): Promise<PostForum[]> {
-        const existingPosts = await this.postModel.find({}, { _id: 1, title: 1, createdDate: 1 }).exec()
+    async findAll(page: number, search?: string): Promise<PostForum[]> {
+        const [start, end] = [(page - 1) * 10, page * 10]
+
+        const existingPosts = await this.postModel
+            .find(search ? { title: { $regex: search } } : {}, { _id: 1, title: 1, createdDate: 1 })
+            .sort({ createdDate: 'descending' })
+            .skip(start)
+            .limit(end - start)
+            .exec()
         if (!existingPosts) {
             throw new NotFoundException('No posts found')
         }
         return existingPosts
+    }
+
+    async getNumberOfPages(): Promise<number> {
+        const numberOfPosts = await this.postModel.countDocuments()
+        return Math.ceil(numberOfPosts / 10)
     }
 
     async findOneById(id: string, user: any): Promise<PostForum> {

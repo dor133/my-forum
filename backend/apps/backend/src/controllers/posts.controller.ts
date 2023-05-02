@@ -1,4 +1,4 @@
-import { Controller, Put, Get, Param, Post, Body, Req, Delete } from '@nestjs/common'
+import { Controller, Put, Get, Param, Post, Body, Req, Delete, Query } from '@nestjs/common'
 import { PostsService } from '../services/posts.service'
 import { PostForum } from '@app/models/posts/post.schema'
 import { PostParamDto } from '../services/dto/post-param.dto'
@@ -8,6 +8,7 @@ import { UpdatePostDto } from '../services/dto/update-post.dto'
 import { DeletePostDto } from '../services/dto/delete-post.dto'
 import { PostLike } from '@app/models/likes/postsLikes/postLike.schema'
 import { User } from '@app/models/users/user.schema'
+import { PostQueryDto } from '../services/dto/post-query.dto'
 
 @Controller('posts')
 export class PostsController {
@@ -15,8 +16,8 @@ export class PostsController {
 
     @Public()
     @Get()
-    getPosts(): Promise<PostForum[]> {
-        return this.postsService.findAll()
+    getPosts(@Query() query: PostQueryDto): Promise<PostForum[]> {
+        return this.postsService.findAll(query.page, query.search)
     }
 
     @Public()
@@ -69,5 +70,11 @@ export class PostsController {
     @Get('analytics/mostactive')
     getMostActiveUsers(): Promise<User[]> {
         return this.postsService.getMostActiveUsers()
+    }
+
+    @Public()
+    @Get('pages/number')
+    getNumberOfPages(): Promise<number> {
+        return this.postsService.getNumberOfPages()
     }
 }
