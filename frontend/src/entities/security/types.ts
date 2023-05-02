@@ -25,14 +25,14 @@ export type UserStoreType = {
     logOut: () => void
 }
 
-export type PostQueryPayload = {
+export type PostCreationQueryPayload = {
     title: string | undefined
     text: string | undefined
 }
 
 export type PostModifyQueryPayload = {
     id: string | undefined
-    data: PostQueryPayload
+    data: PostCreationQueryPayload
 }
 
 export type PostDeleteQueryPayload = {
@@ -46,6 +46,11 @@ export type PostQueryData = {
     createdDate: Date
     author: UserQueryData
     like: PostLikeQueryData[]
+}
+
+export type PostQueryPayload = {
+    page: number
+    search?: string
 }
 
 export type UserQueryData = {

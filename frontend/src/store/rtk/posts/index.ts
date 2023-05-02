@@ -3,6 +3,7 @@ import {
     PostDeleteQueryPayload,
     PostQueryData,
     PostQueryPayload,
+    PostCreationQueryPayload,
     PostModifyQueryPayload,
     PostLikeQueryPayload,
     LastPostsAnalyticsData,
@@ -11,9 +12,9 @@ import {
 
 const postsEndpoints = rtkApi.injectEndpoints({
     endpoints: (build) => ({
-        getPosts: build.query<PostQueryData[], void>({
-            query: () => ({
-                url: 'posts',
+        getPosts: build.query<PostQueryData[], PostQueryPayload>({
+            query: ({ page, search }) => ({
+                url: search ? `posts?page=${page.toString()}&search=${search}` : `posts?page=${page}`,
                 method: 'GET',
             }),
             providesTags: ['AllPosts'],
@@ -27,7 +28,7 @@ const postsEndpoints = rtkApi.injectEndpoints({
             providesTags: ['Post', 'PostLike'],
         }),
 
-        createPost: build.mutation<PostQueryData, PostQueryPayload>({
+        createPost: build.mutation<PostQueryData, PostCreationQueryPayload>({
             query: (data) => ({
                 url: 'posts',
                 method: 'POST',
