@@ -1,5 +1,5 @@
-import { Comment } from '@app/models/comments/comment.schema'
-import { User } from '@app/models/users/user.schema'
+import { Comment } from '../../comments/comment.schema'
+import { User } from '../../users/user.schema'
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import * as mongoose from 'mongoose'
 import { HydratedDocument } from 'mongoose'
