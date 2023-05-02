@@ -9,36 +9,37 @@ import { Input } from '../../../core/Input'
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { debounce } from 'lodash'
+import { PaginatedItems } from './pagination/paginatedItems'
 
 export function AllPosts() {
-    const { data } = useGetPostsQuery()
+    // const { data } = useGetPostsQuery()
     const { payload } = useAuthStore()
 
-    const debouncedSearch = debounce(async (searchTerm: string) => {
-        setSearchTerm(searchTerm)
-    }, 500)
+    // const debouncedSearch = debounce(async (searchTerm: string) => {
+    //     setSearchTerm(searchTerm)
+    // }, 500)
 
-    const [searchTerm, setSearchTerm] = useState('')
-    const handleSearchTerm = (e: React.ChangeEvent<HTMLInputElement>) => {
-        debouncedSearch(e.target.value)
-    }
+    // const [searchTerm, setSearchTerm] = useState('')
+    // const handleSearchTerm = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     debouncedSearch(e.target.value)
+    // }
 
-    const filteredPosts = useMemo(
-        () =>
-            data?.filter((post) => {
-                return post.title
-                    .toLowerCase()
-                    .normalize('NFD')
-                    .replace(/\p{Diacritic}/gu, '')
-                    .includes(
-                        searchTerm
-                            .toLowerCase()
-                            .normalize('NFD')
-                            .replace(/\p{Diacritic}/gu, '')
-                    )
-            }),
-        [searchTerm, data]
-    )
+    // const filteredPosts = useMemo(
+    //     () =>
+    //         data?.filter((post) => {
+    //             return post.title
+    //                 .toLowerCase()
+    //                 .normalize('NFD')
+    //                 .replace(/\p{Diacritic}/gu, '')
+    //                 .includes(
+    //                     searchTerm
+    //                         .toLowerCase()
+    //                         .normalize('NFD')
+    //                         .replace(/\p{Diacritic}/gu, '')
+    //                 )
+    //         }),
+    //     [searchTerm, data]
+    // )
 
     return (
         <>
@@ -52,7 +53,7 @@ export function AllPosts() {
                     )}
                 </Group>
 
-                <Center>
+                {/* <Center>
                     <Input placeholder="Rechercher un post" onChange={handleSearchTerm} />
                 </Center>
 
@@ -64,7 +65,9 @@ export function AllPosts() {
                             </li>
                         ))}
                     </ul>
-                </Text>
+                </Text> */}
+
+                <PaginatedItems itemsPerPage={10} />
             </Stack>
         </>
     )
