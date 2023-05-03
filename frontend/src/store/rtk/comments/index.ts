@@ -28,7 +28,7 @@ const commmentsEndpoints = rtkApi.injectEndpoints({
             invalidatesTags: ['Comments'],
         }),
 
-        addLike: build.mutation<CommentQueryData, CommentLikeQueryPayload>({
+        addCommentLike: build.mutation<CommentQueryData, CommentLikeQueryPayload>({
             query: ({ postId, id }) => ({
                 url: `posts/${postId}/comments/${id}/likes`,
                 method: 'POST',
@@ -36,7 +36,7 @@ const commmentsEndpoints = rtkApi.injectEndpoints({
             invalidatesTags: ['CommentLikes'],
         }),
 
-        removeLike: build.mutation<CommentQueryData, CommentLikeQueryPayload>({
+        removeCommentLike: build.mutation<CommentQueryData, CommentLikeQueryPayload>({
             query: ({ postId, id }) => ({
                 url: `posts/${postId}/comments/${id}/likes`,
                 method: 'DELETE',
@@ -46,4 +46,5 @@ const commmentsEndpoints = rtkApi.injectEndpoints({
     }),
 })
 
-export const { useGetCommentsQuery, useCreateCommentMutation, useDeleteCommentMutation, useAddLikeMutation, useRemoveLikeMutation } = commmentsEndpoints
+export const { useGetCommentsQuery, useCreateCommentMutation, useDeleteCommentMutation, useAddCommentLikeMutation, useRemoveCommentLikeMutation } =
+    commmentsEndpoints
