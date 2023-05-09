@@ -1,4 +1,5 @@
 import type { Config } from '@jest/types'
+import 'jest-extended'
 
 const config: Config.InitialOptions = {
     verbose: true,
@@ -25,7 +26,7 @@ const config: Config.InitialOptions = {
         '<rootDir>/libs/auth/src/auth.service.spec.ts',
         '<rootDir>/apps/backend/src/controllers/users.controller.spec.ts',
     ],
-    setupFilesAfterEnv: ['<rootDir>/test-utils/jest/test-setup.ts'],
+    setupFilesAfterEnv: ['<rootDir>/test-utils/jest/test-setup.ts', 'jest-extended/all'],
 }
 
 export default config
