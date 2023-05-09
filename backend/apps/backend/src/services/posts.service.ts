@@ -51,7 +51,7 @@ export class PostsService {
         return existingPost
     }
 
-    async create(createPostDto: CreatePostDto, userId: string): Promise<PostForum> {
+    async create(createPostDto: CreatePostDto, userId: string): Promise<PostForumDocument> {
         const createdPost = new this.postModel(createPostDto)
         const user = new this.userModel({ _id: userId })
         createdPost.author = user
@@ -77,7 +77,7 @@ export class PostsService {
     }
 
     async addLike(id: string, userId: string): Promise<PostLike> {
-        const alreadyLiked = await this.postLikeModel.findOne({ postId: userId, userId: userId }, { _id: 1 }).exec()
+        const alreadyLiked = await this.postLikeModel.findOne({ postId: id, userId: userId }, { _id: 1 }).exec()
         if (alreadyLiked) {
             throw new ConflictException(`You already liked this post, or id doesn't exist`)
         }
