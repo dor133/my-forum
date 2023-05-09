@@ -21,7 +21,6 @@ const config: Config.InitialOptions = {
         '<rootDir>/node_modules/',
         '<rootDir>/fixtures/',
         '<rootDir>/apps/fixtures/',
-        '<rootDir>/apps/backend/src/controllers/app.controller.spec.ts',
         '<rootDir>/libs/auth/src/auth.service.spec.ts',
         '<rootDir>/apps/backend/src/controllers/users.controller.spec.ts',
     ],
