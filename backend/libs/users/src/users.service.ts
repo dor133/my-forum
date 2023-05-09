@@ -40,7 +40,7 @@ export class UsersService {
         return existingUser
     }
 
-    async create(createUserDto: CreateUserDto): Promise<User> {
+    async create(createUserDto: CreateUserDto): Promise<UserDocument> {
         const createdUser = new this.userModel(createUserDto)
         const existingUser = await this.userModel.findOne({ $or: [{ email: createUserDto.email }, { username: createUserDto.username }] }, { _id: 1 }).exec()
         if (existingUser) {
