@@ -217,7 +217,35 @@ describe('PostsService', () => {
 
             await expect(async () => {
                 await services.postsService.addLike(document._id.toString(), userId)
-                console.log(await models.postLikeModel.find().exec())
+            }).rejects.toThrow()
+        })
+
+        it('should remove a like to the post', async () => {
+            const post = {
+                title: faker.lorem.words(5),
+                text: faker.lorem.paragraphs(1),
+                author: faker.database.mongodbObjectId(),
+            }
+            const document = await models.postModel.create(post)
+            const userId = new ObjectId(faker.database.mongodbObjectId())
+            await models.postLikeModel.create({ userId: userId, postId: document._id.toString() })
+            await services.postsService.removeLike(document._id.toString(), userId.toString())
+
+            const dbLikes = await models.postLikeModel.find({ postId: document._id.toString() }).exec()
+            expect(dbLikes).toMatchObject([])
+        })
+
+        it("should throw an error if you don't like the post", async () => {
+            const post = {
+                title: faker.lorem.words(5),
+                text: faker.lorem.paragraphs(1),
+                author: faker.database.mongodbObjectId(),
+            }
+            const document = await models.postModel.create(post)
+            const userId = faker.database.mongodbObjectId()
+
+            await expect(async () => {
+                await services.postsService.removeLike(document._id.toString(), userId)
             }).rejects.toThrow()
         })
     })
