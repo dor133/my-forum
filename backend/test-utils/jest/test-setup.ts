@@ -5,7 +5,7 @@ import { Connection } from 'mongoose'
 import { User, UserSchema } from '@app/models/users/user.schema'
 import { PostForum, PostForumSchema } from '@app/models/posts/post.schema'
 import { Comment, CommentSchema } from '@app/models/comments/comment.schema'
-import { UsersService } from '@app/users'
+import { UsersModule, UsersService } from '@app/users'
 import { PostsService } from '../../apps/backend/src/services/posts.service'
 import { CommentsService } from '../../apps/backend/src/services/comments.service'
 import { CommentLike, CommentLikeSchema } from '@app/models/likes/commentsLikes/commentLike.schema'
@@ -14,6 +14,9 @@ import { UsersController } from '../../apps/backend/src/controllers/users.contro
 import { PostsController } from '../../apps/backend/src/controllers/posts.controller'
 import { CommentsController } from '../../apps/backend/src/controllers/comments.controller'
 import { services, controllers, models } from './references'
+import { AuthModule, AuthService } from '@app/auth'
+import { AuthController } from '../../apps/backend/src/controllers/auth.controller'
+import { JwtAuthGuard } from '@app/auth/jwt-auth.guard'
 
 beforeAll(async () => {
     let mongoConnection: Connection
@@ -26,17 +29,29 @@ beforeAll(async () => {
             MongooseModule.forFeature([{ name: Comment.name, schema: CommentSchema }]),
             MongooseModule.forFeature([{ name: CommentLike.name, schema: CommentLikeSchema }]),
             MongooseModule.forFeature([{ name: PostLike.name, schema: PostLikeSchema }]),
+            UsersModule,
+            AuthModule,
         ],
-        providers: [UsersService, PostsService, CommentsService],
-        controllers: [UsersController, PostsController, CommentsController],
+        providers: [
+            UsersService,
+            PostsService,
+            CommentsService,
+            {
+                provide: 'APP_GUARD',
+                useClass: JwtAuthGuard,
+            },
+        ],
+        controllers: [UsersController, PostsController, CommentsController, AuthController],
     }).compile()
 
     services.usersService = moduleRef.get<UsersService>(UsersService)
     services.postsService = moduleRef.get<PostsService>(PostsService)
     services.commentsService = moduleRef.get<CommentsService>(CommentsService)
+    services.authServices = moduleRef.get<AuthService>(AuthService)
     controllers.usersController = moduleRef.get<UsersController>(UsersController)
     controllers.postsController = moduleRef.get<PostsController>(PostsController)
     controllers.commentsController = moduleRef.get<CommentsController>(CommentsController)
+    controllers.authController = moduleRef.get<AuthController>(AuthController)
     mongoConnection = await createMongodConnection()
     models.userModel = mongoConnection.model(User.name, UserSchema)
     models.postModel = mongoConnection.model(PostForum.name, PostForumSchema)

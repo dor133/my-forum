@@ -23,7 +23,6 @@ const config: Config.InitialOptions = {
         '<rootDir>/node_modules/',
         '<rootDir>/fixtures/',
         '<rootDir>/apps/fixtures/',
-        '<rootDir>/libs/auth/src/auth.service.spec.ts',
         '<rootDir>/apps/backend/src/controllers/users.controller.spec.ts',
     ],
     setupFilesAfterEnv: ['<rootDir>/test-utils/jest/test-setup.ts', 'jest-extended/all'],
