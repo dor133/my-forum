@@ -20,7 +20,7 @@ describe('UsersService', () => {
         })
 
         it('should create a user', async () => {
-            let user = await services.usersService.create(userData)
+            const user = await services.usersService.create(userData)
             delete userData.password
             expect(user).toMatchObject(userData)
         })

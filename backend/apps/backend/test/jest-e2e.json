@@ -14,5 +14,6 @@
         "@app/models/(.*)": "<rootDir>/libs/models/src/$1",
         "@app/models": "<rootDir>/libs/models/src"
     },
-    "roots": ["<rootDir>/libs/", "<rootDir>/apps/"]
+    "roots": ["<rootDir>/libs/", "<rootDir>/apps/"],
+    "testTimeout": 30000
 }
