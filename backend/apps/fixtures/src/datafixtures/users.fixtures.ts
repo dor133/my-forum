@@ -14,7 +14,7 @@ export class UsersFixtures extends Fixtures {
         const users = []
         const password = 'password'
         const salt = 10
-        for (let i = 0; i < 1000; i++) {
+        for (let i = 0; i < 500; i++) {
             const user = {
                 username: faker.internet.userName(),
                 email: faker.internet.email(),
@@ -23,6 +23,12 @@ export class UsersFixtures extends Fixtures {
             }
             users.push(user)
         }
+        users.push({
+            username: 'generic_user',
+            email: 'mail@mail.com',
+            password: await bcrypt.hash(password, salt),
+            createdDate: Date.now(),
+        })
         const documents = await this.userModel.insertMany(users)
         this.reference.addReference('Users', documents)
     }

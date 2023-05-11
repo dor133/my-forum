@@ -17,7 +17,7 @@ export class PostsFixtures extends Fixtures {
     async load(): Promise<void> {
         const users = this.reference.getReference<UserDocument[]>('Users')
         const posts = []
-        for (let i = 0; i < 10000; i++) {
+        for (let i = 0; i < 1000; i++) {
             const post = {
                 title: faker.lorem.sentence(5),
                 text: faker.lorem.paragraphs(Math.floor(Math.random() * 10) + 1),
