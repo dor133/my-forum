@@ -9,8 +9,8 @@ export class AppController {
 
     @UseGuards(JwtAuthGuard)
     @Get('profile')
-    getProfile() {
-        return 'Authenticated !'
+    getProfile(@Request() req) {
+        return { user: req.user }
     }
 
     @Public()
