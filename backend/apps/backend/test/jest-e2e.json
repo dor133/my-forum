@@ -1,19 +1,15 @@
 {
-  "moduleFileExtensions": [
-    "js",
-    "json",
-    "ts"
-  ],
-  "rootDir": ".",
-  "testEnvironment": "node",
-  "testRegex": ".e2e-spec.ts$",
-  "transform": {
-    "^.+\\.(t|j)s$": "ts-jest"
-  },
-  "moduleNameMapper": {
-    "@app/auth/(.*)": "<rootDir>/../libs/auth/src/$1",
-    "@app/auth": "<rootDir>/../libs/auth/src",
-    "@app/models/(.*)": "<rootDir>/../libs/models/src/$1",
-    "@app/models": "<rootDir>/../libs/models/src"
-  }
+    "moduleFileExtensions": ["js", "json", "ts"],
+    "rootDir": "../../",
+    "testEnvironment": "node",
+    "testRegex": ".e2e-spec.ts$",
+    "transform": {
+        "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "moduleNameMapper": {
+        "@app/auth/(.*)": "<rootDir>/libs/auth/src/$1",
+        "@app/auth": "<rootDir>/libs/auth/src",
+        "@app/models/(.*)": "<rootDir>/libs/models/src/$1",
+        "@app/models": "<rootDir>/libs/models/src"
+    }
 }
