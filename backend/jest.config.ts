@@ -24,6 +24,7 @@ const config: Config.InitialOptions = {
         '<rootDir>/fixtures/',
         '<rootDir>/apps/fixtures/',
         '<rootDir>/apps/backend/src/controllers/users.controller.spec.ts',
+        '<rootDir>/libs/auth/src/local-auth.guard.spec.ts',
     ],
     setupFilesAfterEnv: ['<rootDir>/test-utils/jest/test-setup.ts', 'jest-extended/all'],
 }
