@@ -15,7 +15,7 @@ export class UsersFixtures extends Fixtures {
         const password = 'password'
         const salt = 10
         const hashedPassword = await bcrypt.hash(password, salt)
-        for (let i = 0; i < 1000; i++) {
+        for (let i = 0; i < 100; i++) {
             const user = {
                 username: faker.internet.userName(),
                 email: faker.internet.email(),
