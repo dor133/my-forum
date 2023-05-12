@@ -16,19 +16,19 @@ export class CommentsFixtures extends Fixtures {
     }
 
     async load(): Promise<void> {
-        // const users = this.reference.getReference<UserDocument[]>('Users')
-        // const posts = this.reference.getReference<PostForumDocument[]>('Posts')
-        // const comments = []
-        // for (let i = 0; i < 10000; i++) {
-        //     const post = {
-        //         text: faker.lorem.sentences(Math.floor(Math.random() * 10) + 1),
-        //         author: users[Math.floor(Math.random() * users.length)]._id,
-        //         postId: posts[Math.floor(Math.random() * posts.length)]._id,
-        //         createdDate: faker.date.between('2021-01-01', '2023-04-28'),
-        //     }
-        //     comments.push(post)
-        // }
-        // const documents = await this.commentModel.insertMany(comments)
-        // this.reference.addReference('Comments', documents)
+        const users = this.reference.getReference<UserDocument[]>('Users')
+        const posts = this.reference.getReference<PostForumDocument[]>('Posts')
+        const comments = []
+        for (let i = 0; i < 300; i++) {
+            const post = {
+                text: faker.lorem.sentences(Math.floor(Math.random() * 10) + 1),
+                author: users[Math.floor(Math.random() * users.length)]._id,
+                postId: posts[Math.floor(Math.random() * posts.length)]._id,
+                createdDate: faker.date.between('2021-01-01', '2023-04-28'),
+            }
+            comments.push(post)
+        }
+        const documents = await this.commentModel.insertMany(comments)
+        this.reference.addReference('Comments', documents)
     }
 }
