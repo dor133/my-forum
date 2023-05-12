@@ -28,6 +28,12 @@ export class CommentsFixtures extends Fixtures {
             }
             comments.push(post)
         }
+        comments.push({
+            text: 'generic_comment',
+            author: users[Math.floor(Math.random() * users.length)]._id,
+            postId: posts[Math.floor(Math.random() * posts.length)]._id,
+            createdDate: Date.now(),
+        })
         const documents = await this.commentModel.insertMany(comments)
         this.reference.addReference('Comments', documents)
     }

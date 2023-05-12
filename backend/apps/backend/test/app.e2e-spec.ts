@@ -261,5 +261,17 @@ describe('App (e2e)', () => {
                 .set('Authorization', 'Bearer ' + JWT)
                 .expect(200)
         })
+
+        it('user not connected should not be able to delete a comment', async () => {
+            return await request(app.getHttpServer())
+                .delete('/posts/' + genericIds.postId + '/comments/' + genericIds.commentId)
+                .expect(401)
+                .expect((res) => {
+                    expect(res.body).toEqual({
+                        statusCode: 401,
+                        message: 'Unauthorized',
+                    })
+                })
+        })
     })
 })

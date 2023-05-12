@@ -7,6 +7,7 @@ import { Connection, connect } from 'mongoose'
 import { UsersService } from '@app/users'
 import { PostForum, PostForumSchema } from '@app/models/posts/post.schema'
 import { Model } from 'mongoose'
+import { Comment, CommentSchema } from '@app/models/comments/comment.schema'
 const dbName = process.env.MONGO_RANDOM_ID
 
 export let app: INestApplication
@@ -14,9 +15,11 @@ export let jwtService: JwtService
 let db: Connection
 let usersService: UsersService
 let postModel: Model<PostForum>
+let commentModel: Model<Comment>
 export const genericIds = {
     userId: null,
     postId: null,
+    commentId: null,
 }
 
 beforeAll(async () => {
@@ -36,9 +39,10 @@ beforeAll(async () => {
 
     db = (await connect(process.env.MONGO_URI, { dbName: dbName })).connection
     postModel = db.model(PostForum.name, PostForumSchema)
-    postModel = db.model('PostForum')
+    commentModel = db.model(Comment.name, CommentSchema)
     genericIds.userId = (await usersService.findOne('generic_user'))._id
     genericIds.postId = (await postModel.findOne({ title: 'generic_title' }))._id
+    genericIds.commentId = (await commentModel.findOne({ title: 'generic_comment' }))._id
     app = moduleFixture.createNestApplication()
     await app.init()
 })
