@@ -10,6 +10,7 @@ const config: Config.InitialOptions = {
         '^.+\\.(t|j)s$': 'ts-jest',
     },
     collectCoverageFrom: ['**/*.(t|j)s'],
+    coveragePathIgnorePatterns: ['/node_modules/', '/dist/', '/fixtures/', '/test-utils/', '/apps/fixtures/', '/apps/backend/test/'],
     coverageDirectory: './coverage',
     testEnvironment: 'node',
     roots: ['<rootDir>/libs/', '<rootDir>/apps/'],
