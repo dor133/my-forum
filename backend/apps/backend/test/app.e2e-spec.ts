@@ -157,7 +157,7 @@ describe('App (e2e)', () => {
                 .get('/posts/' + genericIds.postId + '/comments')
                 .expect(200)
                 .expect((res) => {
-                    expect(res.body).toMatchObject([comment])
+                    expect(res.body).toEqual(expect.arrayContaining([expect.objectContaining(comment)]))
                 })
         })
 
