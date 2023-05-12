@@ -180,5 +180,86 @@ describe('App (e2e)', () => {
                 .send(comment)
                 .expect(401)
         })
+
+        it('user should be able to delete his post', async () => {
+            const user = {
+                username: 'generic_user',
+                password: 'password',
+            }
+            const post = {
+                title: 'Post to delete',
+                text: 'Content',
+            }
+            let JWT = null
+            let postId = null
+
+            await request(app.getHttpServer())
+                .post('/auth/login')
+                .send(user)
+                .expect(201)
+                .expect((res) => {
+                    JWT = res.body.access_token
+                })
+            await request(app.getHttpServer())
+                .post('/posts')
+                .set('Authorization', 'Bearer ' + JWT)
+                .send(post)
+                .expect(201)
+                .expect((res) => {
+                    postId = res.body._id
+                })
+
+            return await request(app.getHttpServer())
+                .delete('/posts')
+                .set('Authorization', 'Bearer ' + JWT)
+                .send({ ids: [postId] })
+                .expect(200)
+        })
+
+        it('user not connected should not be able to delete a post', async () => {
+            return await request(app.getHttpServer())
+                .delete('/posts')
+                .send({ ids: [genericIds.postId] })
+                .expect(401)
+                .expect((res) => {
+                    expect(res.body).toEqual({
+                        statusCode: 401,
+                        message: 'Unauthorized',
+                    })
+                })
+        })
+
+        it('user should be able to delete his comment', async () => {
+            const user = {
+                username: 'generic_user',
+                password: 'password',
+            }
+            const comment = {
+                text: 'Comment to delete',
+            }
+            let JWT = null
+            let commentId = null
+
+            await request(app.getHttpServer())
+                .post('/auth/login')
+                .send(user)
+                .expect(201)
+                .expect((res) => {
+                    JWT = res.body.access_token
+                })
+            await request(app.getHttpServer())
+                .post('/posts/' + genericIds.postId + '/comments')
+                .set('Authorization', 'Bearer ' + JWT)
+                .send(comment)
+                .expect(201)
+                .expect((res) => {
+                    commentId = res.body._id
+                })
+
+            return await request(app.getHttpServer())
+                .delete('/posts/' + genericIds.postId + '/comments/' + commentId)
+                .set('Authorization', 'Bearer ' + JWT)
+                .expect(200)
+        })
     })
 })
