@@ -14,7 +14,7 @@ export class UsersFixtures extends Fixtures {
         const users = []
         const password = 'password'
         const salt = 10
-        for (let i = 0; i < 500; i++) {
+        for (let i = 0; i < 100; i++) {
             const user = {
                 username: faker.internet.userName(),
                 email: faker.internet.email(),

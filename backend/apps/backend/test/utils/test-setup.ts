@@ -5,13 +5,19 @@ import { JwtModule, JwtService } from '@nestjs/jwt'
 import { INestApplication } from '@nestjs/common'
 import { Connection, connect } from 'mongoose'
 import { UsersService } from '@app/users'
-
+import { PostForum, PostForumSchema } from '@app/models/posts/post.schema'
+import { Model } from 'mongoose'
 const dbName = process.env.MONGO_RANDOM_ID
 
 export let app: INestApplication
 export let jwtService: JwtService
 let db: Connection
-let userService: UsersService
+let usersService: UsersService
+let postModel: Model<PostForum>
+export const genericIds = {
+    userId: null,
+    postId: null,
+}
 
 beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -25,9 +31,14 @@ beforeAll(async () => {
         ],
     }).compile()
 
-    userService = moduleFixture.get<UsersService>(UsersService)
+    usersService = moduleFixture.get<UsersService>(UsersService)
     jwtService = moduleFixture.get<JwtService>(JwtService)
+
     db = (await connect(process.env.MONGO_URI, { dbName: dbName })).connection
+    postModel = db.model(PostForum.name, PostForumSchema)
+    postModel = db.model('PostForum')
+    genericIds.userId = (await usersService.findOne('generic_user'))._id
+    genericIds.postId = (await postModel.findOne({ title: 'generic_title' }))._id
     app = moduleFixture.createNestApplication()
     await app.init()
 })
@@ -40,7 +51,7 @@ afterAll(async () => {
 })
 
 it('(db check) should return generic_user', async () => {
-    const user = await userService.findOne('generic_user')
+    const user = await usersService.findOne('generic_user')
     expect(user).toMatchObject({ username: 'generic_user' })
 })
 

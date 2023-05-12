@@ -17,7 +17,7 @@ export class PostsFixtures extends Fixtures {
     async load(): Promise<void> {
         const users = this.reference.getReference<UserDocument[]>('Users')
         const posts = []
-        for (let i = 0; i < 1000; i++) {
+        for (let i = 0; i < 300; i++) {
             const post = {
                 title: faker.lorem.sentence(5),
                 text: faker.lorem.paragraphs(Math.floor(Math.random() * 10) + 1),
@@ -26,6 +26,12 @@ export class PostsFixtures extends Fixtures {
             }
             posts.push(post)
         }
+        posts.push({
+            title: 'generic_title',
+            text: 'generic_text',
+            author: users[Math.floor(Math.random() * users.length)]._id,
+            createdDate: Date.now(),
+        })
         const documents = await this.postModel.insertMany(posts)
         this.reference.addReference('Posts', documents)
     }
