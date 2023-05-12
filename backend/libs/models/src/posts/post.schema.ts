@@ -13,7 +13,7 @@ export class PostForum {
     @Prop()
     text: string
 
-    @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+    @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'User', index: true })
     author: User
 
     @Prop({ required: true, default: () => new Date() })

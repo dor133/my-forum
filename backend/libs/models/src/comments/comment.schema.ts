@@ -11,10 +11,10 @@ export class Comment {
     @Prop()
     text: string
 
-    @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'User' })
+    @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'User', index: true })
     author: User
 
-    @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'PostForum' })
+    @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'PostForum', index: true })
     postId: PostForum
 
     @Prop({ required: true, default: () => new Date() })
