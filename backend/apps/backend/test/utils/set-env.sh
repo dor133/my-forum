@@ -1,6 +1,6 @@
 #!/bin/bash
 
-temp_id=$(uuidgen)
+temp_id=$(cat /proc/sys/kernel/random/uuid)
 temp_id=$(echo $temp_id | cut --delimiter='-' -f 2)
 
 export MONGO_RANDOM_ID="fixtures-test-$temp_id"
