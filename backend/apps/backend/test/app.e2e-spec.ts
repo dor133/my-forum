@@ -60,7 +60,7 @@ describe('App (e2e)', () => {
 
         it('/auth/login (POST) with wrong password, should throw a 401', () => {
             const user = {
-                usrename: 'generic_user',
+                username: 'generic_user',
                 password: 'wrong_password',
             }
 
