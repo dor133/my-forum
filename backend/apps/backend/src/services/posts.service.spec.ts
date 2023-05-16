@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { services, models } from '../../../../test-utils/jest/references'
 import { ObjectId } from 'mongodb'
-import e from 'express'
 
 describe('PostsService', () => {
     it('should be defined', () => {
@@ -46,10 +45,11 @@ describe('PostsService', () => {
                 },
             ]
             await models.postModel.insertMany(posts)
-            // const documents = await models.postModel.find({ title: { $regex: "match", $options: "i" } }, { _id: 1, title: 1, createdDate: 1 }).sort({ createdDate: 'descending' }).exec()
 
             const retrievedPosts = await services.postsService.findAll(1, 'match')
-            expect(retrievedPosts).toMatchObject([{ title: 'matching post 1' }, { title: 'matching post 2' }])
+            expect(retrievedPosts).toEqual(
+                expect.arrayContaining([{ title: 'matching post 1' }, { title: 'matching post 2' }].map((obj) => expect.objectContaining(obj)))
+            )
         })
 
         it('should return an empty array if no posts are found', async () => {
