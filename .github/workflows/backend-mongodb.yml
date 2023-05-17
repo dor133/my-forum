@@ -40,6 +40,8 @@ jobs:
       #   run: . ./apps/backend/test/utils/set-env.sh
 
       - name: Run fixtures
+        env:
+          MONGO_URI: http://localhost:27017
         run: npm run fixtures
 
       - name: Run tests
