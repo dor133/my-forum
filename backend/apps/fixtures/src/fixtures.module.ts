@@ -7,7 +7,7 @@ import { ConfigModule } from '@nestjs/config'
     imports: [
         // Insert database connection module before FixturesModuleProvider
         ConfigModule.forRoot(),
-        MongooseModule.forRoot(process.env.MONGO_URI, { dbName: process.env.MONGO_RANDOM_ID }),
+        MongooseModule.forRoot(process.env.MONGO_URI, { dbName: 'fixtures-test' }),
         FixturesModuleProvider.forRootAsyncMonorepo('apps/fixtures/src/datafixtures/*.fixtures.ts', 'libs/models/**/*.schema.ts', 'discriminators', 'fixtures'),
     ],
     providers: [FixturesCommand],
