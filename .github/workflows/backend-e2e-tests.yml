@@ -1,11 +1,11 @@
-name: Run Jest e2e tests for backend
+name: Run Jest e2e tests for backend with MongoDB
 run-name: ${{ github.actor }} ran e2e tests for backend only
 
 on:
   push:
-    branches: ["master", "dev"]
+    branches: ["test"]
   pull_request:
-    branches: ["master", "dev"]
+    branches: ["test"]
 
 defaults:
   run:
@@ -14,26 +14,37 @@ defaults:
 jobs:
   run-e2e-tests:
     runs-on: ubuntu-latest
-
-    # strategy:
-    #   matrix:
-    #     node-version: [14.x, 16.x, 18.x]
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+        mongodb-version: ["4.2", "4.4", "5.0", "6.0"]
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Git checkout
+        uses: actions/checkout@v3
 
-      - name: Setup Node.js version 16.x
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
-          node-version: 16.x
-          cache: "npm"
-          cache-dependency-path: ./backend/package-lock.json
+          node-version: ${{ matrix.node-version }}
 
-      - name: Install dependencies
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.8.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
+          mongodb-db: fixtures-test
+
+      - name: Instal dependencies
         run: npm ci
+
+      - name: Run fixtures
+        env:
+          MONGO_URI: mongodb://localhost:27017
+        run: npm run fixtures
 
       - name: Run tests
         env:
+          CI: true
           JWT_SECRET: ${{ secrets.JwtSecret }}
-          MONGO_URI: ${{ secrets.MongoUri }}
+          MONGO_URI: mongodb://localhost:27017
         run: npm run test:e2e
