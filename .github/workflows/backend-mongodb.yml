@@ -1,4 +1,4 @@
-name: Run Jest e2e tests for backend with MongoDB*
+name: Run Jest e2e tests for backend with MongoDB
 run-name: ${{ github.actor }} ran e2e tests for backend only
 
 on:
