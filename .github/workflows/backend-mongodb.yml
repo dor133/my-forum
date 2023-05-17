@@ -36,6 +36,9 @@ jobs:
       - name: Instal dependencies
         run: npm ci
 
+      - name: Create a unique id for DB name
+        run: . ./apps/backend/test/utils/set-env.sh
+
       - name: Run fixtures
         run: npm run fixtures
 
