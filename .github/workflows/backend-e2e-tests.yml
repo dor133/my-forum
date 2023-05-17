@@ -3,9 +3,9 @@ run-name: ${{ github.actor }} ran e2e tests for backend only
 
 on:
   push:
-    branches: ["test"]
+    branches: ["master", "dev"]
   pull_request:
-    branches: ["test"]
+    branches: ["master", "dev"]
 
 defaults:
   run:
