@@ -8,7 +8,8 @@ import { UsersService } from '@app/users'
 import { PostForum, PostForumSchema } from '@app/models/posts/post.schema'
 import { Model } from 'mongoose'
 import { Comment, CommentSchema } from '@app/models/comments/comment.schema'
-const dbName = process.env.MONGO_RANDOM_ID
+// const dbName = process.env.MONGO_RANDOM_ID
+const dbName = 'fixtures-test'
 
 export let app: INestApplication
 export let jwtService: JwtService
