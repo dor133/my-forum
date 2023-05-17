@@ -42,12 +42,12 @@ jobs:
 
       - name: Run fixtures
         env:
-          MONGO_URI: http://localhost:27017
+          MONGO_URI: http://127.0.0.1:27017
         run: npm run fixtures
 
       - name: Run tests
         env:
           CI: true
           JWT_SECRET: ${{ secrets.JwtSecret }}
-          MONGO_URI: http://localhost:27017
+          MONGO_URI: http://127.0.0.1:27017
         run: npm run test:e2e
