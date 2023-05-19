@@ -1,5 +1,7 @@
 runtime: nodejs16
-env: flex
+
+runtime_config:
+  document_root: backend
 
 entrypoint: npm run start:prod
 # handlers:
