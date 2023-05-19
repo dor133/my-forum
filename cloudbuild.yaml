@@ -15,4 +15,4 @@ steps:
         # "--image-url=gcr.io/$PROJECT_ID/my-forum/backend:$COMMIT_SHA",
       ]
 
-images: ["gcr.io/$PROJECT_ID/app"]
+images: ["gcr.io/$PROJECT_ID/my-forum/backend:$COMMIT_SHA"]
