@@ -3,7 +3,7 @@ steps:
     dir: "./backend/"
     args: [ci, --omit=dev]
 
-  - name: gcr.io/cloud/builders/npm
+  - name: gcr.io/cloud-builders/npm
     dir: "./backend/"
     args: [run, build, --prod]
 
