@@ -9,11 +9,10 @@ steps:
       ]
 
   - name: "gcr.io/cloud-builders/gcloud"
-    args:
-      [
+    args: [
         "app",
         "deploy",
-        "--image-url=gcr.io/$PROJECT_ID/my-forum/backend:$COMMIT_SHA",
+        # "--image-url=gcr.io/$PROJECT_ID/my-forum/backend:$COMMIT_SHA",
       ]
 
 images: ["gcr.io/$PROJECT_ID/app"]
