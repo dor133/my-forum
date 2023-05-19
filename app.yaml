@@ -1,9 +1,9 @@
 runtime: nodejs16
 
-runtime_config:
-  document_root: backend
+# runtime_config:
+#   document_root: backend
 
-entrypoint: npm run start:prod
+entrypoint: cd backend && npm run start:prod
 # handlers:
 #   - url: /.*
 #     script: auto
