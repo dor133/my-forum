@@ -21,7 +21,8 @@
         "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
         "test:e2e": "jest --config ./apps/backend/test/jest-e2e.json --forceExit",
         "fixtures": "npx tsc --project tsconfig.fixtures.json && node fixtures/apps/fixtures/src/main fixtures",
-        "fixtures:delete": "npx tsc --project tsconfig.fixtures.json && node fixtures/apps/fixtures/src/main fixtures --delete"
+        "fixtures:delete": "npx tsc --project tsconfig.fixtures.json && node fixtures/apps/fixtures/src/main fixtures --delete",
+        "gcp-build": "npm run build"
     },
     "dependencies": {
         "@dauflo/nest-fixtures": "^1.2.0",
