@@ -1,0 +1,4 @@
+steps:
+  - name: gcr.io/cloud-builders/gcloud
+    dir: "./backend/"
+    args: [app, deploy]
