@@ -1,6 +1,5 @@
 FROM node:16.16.0-alpine as base
-# WORKDIR /usr/src/app
-WORKDIR /workspace
+WORKDIR /usr/src/app
 COPY package*.json ./
 
 FROM base as prod
