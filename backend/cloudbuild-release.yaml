@@ -1,4 +1,10 @@
 steps:
-  - name: gcr.io/cloud-builders/gcloud
-    dir: "./backend/"
-    args: [app, deploy]
+    - name: gcr.io/cloud-builders/gcloud
+      dir: './backend/'
+      args: [app, deploy]
+availableSecrets:
+    secretManager:
+        - versionName: projects/$PROJECT_ID/secrets/MY_FORUM_MONGO_URI/versions/latest
+          env: 'MONGO_URI'
+        - versionName: projects/$PROJECT_ID/secrets/MY_FORUM_JWT_SECRET/versions/latest
+          env: 'JWT_SECRET'
