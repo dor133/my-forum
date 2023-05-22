@@ -1,0 +1,14 @@
+steps:
+    - name: gcr.io/cloud-builders/npm
+      args: [ci]
+
+    - name: gcr.io/cloud-builders/npm
+      args: [run, build, --omit=dev]
+
+    # copy build files to the cloud storage bucket
+    - name: gcr.io/cloud-builders/gcloud
+      args: [storage, cp, build/*, gs://my-forum-frontend, --recursive]
+
+    # make files readable online
+    # - name: gcr.io/cloud-builders/gcloud
+    # args: []

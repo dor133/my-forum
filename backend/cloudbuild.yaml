@@ -1,0 +1,12 @@
+steps:
+  - name: gcr.io/cloud-builders/npm
+    # dir: "./backend/"
+    args: [ci, --omit=dev]
+
+  - name: gcr.io/cloud-builders/npm
+    # dir: "./backend/"
+    args: [run, build, --omit-dev]
+
+  - name: gcr.io/cloud-builders/gcloud
+    args: [app, deploy]
+
