@@ -1,8 +1,10 @@
 steps:
   - name: gcr.io/cloud-builders/npm
+    dir: "./backend/"
     args: [install, --omit=dev]
 
   - name: gcr.io/cloud-builders/npm
+    dir: "./backend/"
     args: [run, build, --omit=dev]
 
   - name: gcr.io/cloud-builders/gcloud
